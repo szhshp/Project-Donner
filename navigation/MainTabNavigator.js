@@ -57,7 +57,7 @@ const ScoresStack = createStackNavigator({
 });
 
 ScoresStack.navigationOptions = {
-  tabBarLabel: 'View',
+  tabBarLabel: 'Score',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -100,7 +100,7 @@ const AppNavigator = createBottomTabNavigator(
 const navReducer = createNavigationReducer(AppNavigator);
 const appReducer = combineReducers({
   nav: navReducer,
-  reducers: Reducers,
+  app: Reducers,
 });
 const middleware = createReactNavigationReduxMiddleware(
   'root',

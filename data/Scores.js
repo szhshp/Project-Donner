@@ -1,38 +1,4 @@
 const data_scores = {
-  updateDate: '2019-01-06',
-  categories: [
-    { categoryID: 0, title: 'J-POP', transTitle: '', color: 'cyan' },
-    { categoryID: 1, title: 'アニメ', transTitle: 'Animi', color: 'orange' },
-    { categoryID: 2, title: 'ボーカロイド曲', color: 'silver' },
-    { categoryID: 3, title: 'どうよう', color: 'magenta' },
-    { categoryID: 4, title: 'バラエティ', color: 'lime' },
-    { categoryID: 5, title: 'クラシック', color: 'gold' },
-    { categoryID: 6, title: 'ゲームミュージック', color: 'darkorchid' },
-    { categoryID: 7, title: 'ナムコオリジナル', color: 'orangered' },
-  ],
-  levels: [
-    {
-      levelID: 1,
-      title: 'かんたん',
-      transTitle: '梅',
-    },
-    {
-      levelID: 2,
-      title: 'ふつう',
-      transTitle: '竹',
-    },
-    {
-      levelID: 3,
-      title: 'むずかしい',
-      transTitle: '松',
-    },
-    {
-      levelID: 4,
-      title: 'おに',
-      transTitle: '鬼',
-    },
-  ],
-  // by categories
   scores: [
     {
       categoryID: 0,

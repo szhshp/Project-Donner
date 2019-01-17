@@ -1,27 +1,52 @@
+import merge from 'deepmerge';
+
 const defaultState = {
-  xxx: 123,
+  settings: {
+    autoSave: false,
+  },
+  favoriteScore: {
+    scores: [],
+  },
+  search: {
+    searchBar: {
+      toggleSearchBar: false,
+      keyword: '',
+      previousKeyword: [],
+    },
+    selectedCategory: undefined,
+  },
+  view: {
+    scoreView: {
+      status: '',
+      selectedScoreLink: undefined,
+      selectedScore: undefined,
+      selectedLevel: undefined,
+      message: '',
+      modalVisible: false,
+    },
+  },
+  home: {
+    news: [],
+  },
 };
 
 const reducer = (state, actionData) => {
-  let rv = !state ? defaultState : state;
+  console.log('Reducer.actionData', actionData);
+  let rv = !state ? defaultState : merge({}, state);
 
-  console.log(actionData);
-  
   switch (actionData.type) {
     /* Action Item Panel */
-    case 'PANEL_ACTIONITEM_DISPLAY': {
-      return {
-        xxx: state.xxx + 1,
-      };
+    case 'SEARCH_SELECT_CATEGORY': {
+      rv.search.selectedCategory = actionData.categoryObj;
+      return rv;
     }
-    case 'PANEL_ACTIONITEM_FORM_CHANGE': {
-      break;
+    case 'SEARCH_RESET_CATEGORY': {
+      rv.search.selectedCategory = undefined;
+      return rv;
     }
-    case 'PANEL_ACTIONNOTE_FORM_CHANGE': {
-      break;
-    }
-    case 'PANEL_ACTIONNOTE_REQUEST': {
-      break;
+    case 'SEARCH_SELECT_SCORE': {
+      rv.search.selectedScore = actionData.scoreObj;
+      return rv;
     }
     default: {
       return rv;

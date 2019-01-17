@@ -1,33 +1,42 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, TouchableOpacity } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  BackHandler,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import {
   Text,
   Screen,
-  Heading,
   ListView,
   Title,
-  Subtitle,
-  Tile,
   Divider,
   Icon,
   Row,
-  Caption,
   ImageBackground,
   NavigationBar,
 } from '@shoutem/ui';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
 import Colors from '../constants/Colors';
 import data_scores from '../data/Scores';
 import data_levels from '../data/Levels';
 import data_categories from '../data/Categories';
-import * as actions from '../actions'
+import * as actions from '../actions';
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => state.app;
 const mapDispatchToProps = dispatch => ({
-  showActionItemEditRow: (action, data) => dispatch(actions.actionItem_ShowEditPanel()),
-})
+  search_select_category: scoreObj =>
+    dispatch(actions.search_select_category(scoreObj)),
+  search_reset_category: () => dispatch(actions.search_reset_category()),
+  search_select_score: scoreObj => {
+    /* dispath and navigate to Score Screen */
+    this.props.navigation.navigate('Score');
+    return dispatch(actions.search_select_score(scoreObj))
+  }
+});
 
 class SearchScreen extends React.Component {
   // hide header from react-navigation
@@ -36,7 +45,19 @@ class SearchScreen extends React.Component {
     header: null,
   };
 
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      this.props.search_reset_category();
+      return true;
+    });
+  }
+
+  componentWillUnmount() {
+    this.backHandler.remove();
+  }
+
   render() {
+    console.log('Search.this.props', this.props);
     return (
       <Screen>
         <ImageBackground
@@ -44,23 +65,66 @@ class SearchScreen extends React.Component {
             uri:
               'https://shoutem.github.io/img/ui-toolkit/examples/image-3.png',
           }}
-          style={{ width: 375, height: 70 }}>
+          style={{ height: 60  }}>
           <NavigationBar
             styleName="clear"
             centerComponent={<Title>搜索谱面</Title>}
           />
         </ImageBackground>
-        <ListView
-          data={data_categories}
-          renderRow={c => (
-            <TouchableOpacity onPress={this.props.showActionItemEditRow}>
-              <Row styleName="small" style={{ backgroundColor: c.color }}>
-                <Text style={{color: 'black'}}>{c.title}</Text>
-                <Ionicons name="md-arrow-round-forward" size={16} />
-              </Row>
-            </TouchableOpacity>
-          )}
-        />
+        {this.props.search.selectedCategory !== undefined && (
+          <ListView
+            data={
+              data_scores.scores.find(
+                e =>
+                  e.categoryID == this.props.search.selectedCategory.categoryID
+              ).data
+            }
+            renderRow={s => {
+              return (
+                <TouchableOpacity
+                  onPress={() => this.props.search_select_score(s)}>
+                  <Row styleName="small">
+                    <Text style={{ color: 'black' }}>
+                      {s.title}
+                      {'\n'}
+                       BPM:{s.BPM} {'  '}难度: {s.levels.join('/')}
+                    </Text>
+                    <Ionicons name="md-arrow-round-forward" size={16} />
+                  </Row>
+                  <Divider styleName="line" />
+                </TouchableOpacity>
+              );
+            }}
+          />
+        )}
+        {this.props.search.selectedCategory === undefined && (
+          <ListView
+            data={data_categories}
+            renderRow={c => {
+              let scoreCategory = data_scores.scores.find(
+                e => e.categoryID == c.categoryID
+              );
+              let scoreCategoryCount =
+                scoreCategory !== undefined ? scoreCategory.data.length : 0;
+              return (
+                <TouchableOpacity
+                  onPress={() => this.props.search_select_category(c)}>
+                  <Row styleName="small" style={{ backgroundColor: c.color }}>
+                    <Text style={{ color: 'black' }}>
+                      {c.title}
+                      {'\n'}
+                      {c.transTitle}
+                    </Text>
+                    <Text style={{ color: 'black' }}>
+                      {scoreCategoryCount} 曲目
+                    </Text>
+                    <Ionicons name="md-arrow-round-forward" size={16} />
+                  </Row>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        )}
       </Screen>
     );
   }

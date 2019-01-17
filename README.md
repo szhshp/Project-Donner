@@ -7,6 +7,10 @@
 1. Score Search
 2. Score View
 3. Score Download
+
+## TODO
+
+- [ ] Search History
  
 ## Technology Stacks
  
@@ -55,11 +59,37 @@ Format:
 ## Dynamic Data
  
 ### States
- 
-(TODO)
- 
-```
- 
+  
+```json
+{
+  settings: {   /* application level settings */
+    autoSave: [true|false], /* autoSave when score loaded? */
+  },
+  favoriteScore: {
+    scores: [Array<scoreObj>], /* scores marked as favourite */
+  },
+  search: {
+    searchBar: { 
+      toggleSearchBar: [true|false], /* search bar input open? */
+      keyword: [''|String],
+      previousKeyword: [Array<String>],
+    },
+    selectedCategory: [undefined|categoryObj], /* selected an category? */
+  },
+  view: {
+    scoreView: {
+      status: [String], /* screen status, may represents the loading status */
+      selectedScoreLink: [undefined|String], /* link of selected link*/
+      selectedScore: [undefined|scoreObj], /* selected an score? */
+      selectedLevel: [undefined|levelObj], /* selected an level? */
+      message: [''|String],
+      modalVisible: [true|false],
+    }
+  },
+  home: {
+    news: [Array<String>],
+  },
+}
 ```
  
 ## Static Data

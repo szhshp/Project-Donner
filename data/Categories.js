@@ -10,8 +10,8 @@ const data_categories = [
   { categoryID: 3, title: 'どうよう', transTitle: '儿童', color: 'magenta' },
   {
     categoryID: 4,
-    title: '综艺节目',
-    transTitle: '这个怎么翻译啊',
+    title: 'バラエティ',
+    transTitle: '综艺节目',
     color: 'lime',
   },
   { categoryID: 5, title: 'クラシック', transTitle: '古典', color: 'gold' },

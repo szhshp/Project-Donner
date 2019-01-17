@@ -8,6 +8,8 @@ import {
   NavigationBar,
   Title,
   Button,
+  Heading,
+  Divider,
   Row,
   Image,
   Subtitle,
@@ -40,6 +42,8 @@ class LinksScreen extends React.Component {
 
   render() {
     console.log('ScoreScreen', this.props);
+    console.log('ScoreScreen', this.props.search.selectedScore.levels);
+
     return (
       <ScrollView>
         <ImageBackground
@@ -58,12 +62,29 @@ class LinksScreen extends React.Component {
           <Row>
             <View styleName="vertical">
               <View styleName="horizontal space-between">
-                <Subtitle>{this.props.search.selectedScore.title}</Subtitle>
+                <Heading>{this.props.search.selectedScore.title}</Heading>
                 <Caption>BPM: {this.props.search.selectedScore.BPM}</Caption>
               </View>
-              <Text styleName="multiline">
-                32132132
-              </Text>
+              {this.props.search.selectedScore.levels.map((e, i) => (
+                <View styleName="horizontal">
+                  <Button
+                    styleName={
+                      'confirmation secondary' + (e != null ? '' : ' muted')
+                    }
+                    style={Styles.CSS.buttonPrimary}>
+                    <Text>
+                      {data_levels[i].transTitle}: {e != null ? e + '★' : '-'}
+                    </Text>
+                  </Button>
+                  <Button
+                    styleName={
+                      'confirmation secondary' + (e != null ? '' : ' muted')
+                    }
+                    style={Styles.CSS.buttonSecondary}>
+                    <Text>下载</Text>
+                  </Button>
+                </View>
+              ))}
             </View>
           </Row>
         )}

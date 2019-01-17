@@ -25,6 +25,12 @@ const CSS = {
   textColorWithinBackground: {
     color: Colors.textColorWithinBackground,
   },
+  buttonPrimary: {
+    backgroundColor: mainColor,
+  },
+  buttonSecondary: {
+    backgroundColor: 'red',
+  },
 };
 
 export default { Colors, CSS };

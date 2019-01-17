@@ -1,11 +1,24 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import {
+  createStackNavigator,
+  createBottomTabNavigator,
+} from 'react-navigation';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { Provider, connect } from 'react-redux';
+import {
+  reduxifyNavigator,
+  createReactNavigationReduxMiddleware,
+  createNavigationReducer,
+} from 'react-navigation-redux-helpers';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import ScoresScreen from '../screens/ScoresScreen';
+import SearchScreen from '../screens/SearchScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import Colors from '../constants/Colors';
+import Reducers from '../reducers';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -18,23 +31,37 @@ HomeStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-home${focused ? '' : '-outline'}`
+          : 'md-home'
       }
     />
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+const SearchStack = createStackNavigator({
+  Search: SearchScreen,
 });
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+SearchStack.navigationOptions = {
+  tabBarLabel: 'Search',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+      name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'}
+    />
+  ),
+};
+
+const ScoresStack = createStackNavigator({
+  Scores: ScoresScreen,
+});
+
+ScoresStack.navigationOptions = {
+  tabBarLabel: 'View',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-image' : 'md-image'}
     />
   ),
 };
@@ -53,8 +80,50 @@ SettingsStack.navigationOptions = {
   ),
 };
 
-export default createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack,
+const AppNavigator = createBottomTabNavigator(
+  {
+    SearchStack,
+    HomeStack,
+    ScoresStack,
+    SettingsStack,
+  },
+  {
+    tabBarOptions: {
+      style: {
+        paddingBottom: 5,
+      },
+      activeTintColor: Colors.tintColor,
+    },
+  }
+);
+
+const navReducer = createNavigationReducer(AppNavigator);
+const appReducer = combineReducers({
+  nav: navReducer,
+  reducers: Reducers,
 });
+const middleware = createReactNavigationReduxMiddleware(
+  'root',
+  state => state.nav
+);
+const App = reduxifyNavigator(AppNavigator, 'root');
+const mapStateToProps = state => ({
+  state: state.nav,
+  
+});
+
+const AppWithNavigationState = connect(mapStateToProps)(App);
+
+const store = createStore(appReducer, applyMiddleware(middleware));
+
+class Root extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <AppWithNavigationState />
+      </Provider>
+    );
+  }
+}
+
+export default () => <Root />;

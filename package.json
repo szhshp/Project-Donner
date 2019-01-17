@@ -1,25 +1,26 @@
 {
+  "name": "github.com/szhielelp/project-donner",
+  "version": "0.0.0",
+  "description": "szhielelp/Project-Donner @ Jan 16, 2019",
+  "author": null,
+  "private": true,
   "main": "node_modules/expo/AppEntry.js",
-  "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "eject": "expo eject",
-    "test": "node ./node_modules/jest/bin/jest.js --watchAll"
-  },
-  "jest": {
-    "preset": "jest-expo"
-  },
   "dependencies": {
-    "@expo/samples": "2.1.1",
     "expo": "^32.0.0",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
-    "react-navigation": "^3.0.9"
-  },
-  "devDependencies": {
-    "babel-preset-expo": "^5.0.0",
-    "jest-expo": "^32.0.0"
-  },
-  "private": true
+    "@expo/samples": "2.1.1",
+    "@shoutem/ui": "0.23.6",
+    "expo-asset": "~1.1.0",
+    "expo-constants": "~1.0.2",
+    "expo-file-system": "~1.1.0",
+    "expo-font": "~1.1.0",
+    "na": "0.0.1-dev0",
+    "prop-types": "15.6.2",
+    "react-navigation": "3.0.9",
+    "react-navigation-redux-helpers": "2.0.9",
+    "react-redux": "6.0.0",
+    "react-test-renderer": "16.7.0",
+    "redux": "4.0.1"
+  }
 }

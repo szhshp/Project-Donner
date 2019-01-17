@@ -12,12 +12,12 @@ import {
   createNavigationReducer,
 } from 'react-navigation-redux-helpers';
 
+import Styles from '../constants/Styles';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import ScoresScreen from '../screens/ScoresScreen';
 import SearchScreen from '../screens/SearchScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import Colors from '../constants/Colors';
 import Reducers from '../reducers';
 
 const HomeStack = createStackNavigator({
@@ -53,7 +53,7 @@ SearchStack.navigationOptions = {
 };
 
 const ScoresStack = createStackNavigator({
-  Scores: ScoresScreen,
+  Score: ScoresScreen,
 });
 
 ScoresStack.navigationOptions = {
@@ -89,10 +89,10 @@ const AppNavigator = createBottomTabNavigator(
   },
   {
     tabBarOptions: {
-      style: {
-        paddingBottom: 5,
-      },
-      activeTintColor: Colors.tintColor,
+      inactiveTintColor: Styles.Colors.tabIconDefault,
+      activeTintColor: Styles.Colors.backgroundColor,
+      activeBackgroundColor: Styles.Colors.tabIconDefault,
+      inactiveBackgroundColor: Styles.Colors.backgroundColor,
     },
   }
 );
@@ -109,7 +109,6 @@ const middleware = createReactNavigationReduxMiddleware(
 const App = reduxifyNavigator(AppNavigator, 'root');
 const mapStateToProps = state => ({
   state: state.nav,
-  
 });
 
 const AppWithNavigationState = connect(mapStateToProps)(App);

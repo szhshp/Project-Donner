@@ -7,6 +7,7 @@ import {
   BackHandler,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Asset } from 'expo';
 import {
   Text,
   Screen,
@@ -14,28 +15,29 @@ import {
   Title,
   Divider,
   Icon,
+  Button,
   Row,
   ImageBackground,
   NavigationBar,
 } from '@shoutem/ui';
 import { connect } from 'react-redux';
 
-import Colors from '../constants/Colors';
+import Styles from '../constants/Styles';
 import data_scores from '../data/Scores';
 import data_levels from '../data/Levels';
 import data_categories from '../data/Categories';
 import * as actions from '../actions';
 
-const mapStateToProps = state => state.app;
+const mapStateToProps = state => {
+  console.log('state', state);
+  return state.app;
+};
 const mapDispatchToProps = dispatch => ({
   search_select_category: scoreObj =>
     dispatch(actions.search_select_category(scoreObj)),
   search_reset_category: () => dispatch(actions.search_reset_category()),
-  search_select_score: scoreObj => {
-    /* dispath and navigate to Score Screen */
-    this.props.navigation.navigate('Score');
-    return dispatch(actions.search_select_score(scoreObj))
-  }
+  search_select_score: scoreObj =>
+    dispatch(actions.search_select_score(scoreObj)),
 });
 
 class SearchScreen extends React.Component {
@@ -57,20 +59,34 @@ class SearchScreen extends React.Component {
   }
 
   render() {
-    console.log('Search.this.props', this.props);
+    // console.log('Search.this.props', this.props);
     return (
       <Screen>
         <ImageBackground
-          source={{
-            uri:
-              'https://shoutem.github.io/img/ui-toolkit/examples/image-3.png',
-          }}
-          style={{ height: 60  }}>
+          style={{
+            height: 60,
+            backgroundColor: Styles.Colors.backgroundColor,
+          }}>
           <NavigationBar
             styleName="clear"
-            centerComponent={<Title>搜索谱面</Title>}
+            centerComponent={
+              <Title style={Styles.CSS.HeaderTextPaddingTop}>搜索谱面</Title>
+            }
+            rightComponent={
+              <Button styleName="clear">
+                <Ionicons
+                  name="md-search"
+                  size={20}
+                  style={[
+                    Styles.CSS.textColorWithinBackground,
+                    Styles.CSS.HeaderTextPaddingTop,
+                  ]}
+                />
+              </Button>
+            }
           />
         </ImageBackground>
+        <Divider styleName="line" />
         {this.props.search.selectedCategory !== undefined && (
           <ListView
             data={
@@ -82,12 +98,18 @@ class SearchScreen extends React.Component {
             renderRow={s => {
               return (
                 <TouchableOpacity
-                  onPress={() => this.props.search_select_score(s)}>
+                  onPress={() => {
+                    this.props.search_select_score(s);
+                    this.props.navigation.navigate('Score');
+                  }}>
                   <Row styleName="small">
-                    <Text style={{ color: 'black' }}>
+                    <Text style={{ color: Styles.Colors.defaultText }}>
                       {s.title}
                       {'\n'}
-                       BPM:{s.BPM} {'  '}难度: {s.levels.join('/')}
+                      难度: {s.levels.map(e => (e == null ? '-' : e)).join('/')}
+                      {'  '}
+                      BPM:
+                      {s.BPM}
                     </Text>
                     <Ionicons name="md-arrow-round-forward" size={16} />
                   </Row>
@@ -110,12 +132,12 @@ class SearchScreen extends React.Component {
                 <TouchableOpacity
                   onPress={() => this.props.search_select_category(c)}>
                   <Row styleName="small" style={{ backgroundColor: c.color }}>
-                    <Text style={{ color: 'black' }}>
+                    <Text style={{ color: Styles.Colors.defaultText }}>
                       {c.title}
                       {'\n'}
                       {c.transTitle}
                     </Text>
-                    <Text style={{ color: 'black' }}>
+                    <Text style={{ color: Styles.Colors.defaultText }}>
                       {scoreCategoryCount} 曲目
                     </Text>
                     <Ionicons name="md-arrow-round-forward" size={16} />

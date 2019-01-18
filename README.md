@@ -78,9 +78,10 @@ Format:
   },
   view: {
     scoreView: {
-      status: [String], /* screen status, may represents the loading status */
-      selectedScoreLink: [undefined|String], /* link of selected link*/
       selectedScore: [undefined|scoreObj], /* selected an score? */
+      status: [String], /* screen status, may represents the loading status */
+      selectedWikiLink: [undefined|String], /* direct wiki page of selected score and difficulty */
+      selectedScoreLink: [undefined|String], /* direct wiki of selected score picture */
       selectedLevel: [undefined|levelObj], /* selected an level? */
       message: [''|String],
       modalVisible: [true|false],

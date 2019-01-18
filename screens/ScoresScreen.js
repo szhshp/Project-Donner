@@ -17,6 +17,9 @@ import {
   Caption,
 } from '@shoutem/ui';
 
+import ImageViewer from 'react-native-image-zoom-viewer';
+const Cheerio = require('cheerio');
+
 import Styles from '../constants/Styles';
 import data_scores from '../data/Scores';
 import data_levels from '../data/Levels';
@@ -25,14 +28,8 @@ import * as actions from '../actions';
 
 const mapStateToProps = state => state.app;
 const mapDispatchToProps = dispatch => ({
-  search_select_category: scoreObj =>
-    dispatch(actions.search_select_category(scoreObj)),
-  search_reset_category: () => dispatch(actions.search_reset_category()),
-  search_select_score: scoreObj => {
-    /* dispath and navigate to Score Screen */
-    this.props.navigation.navigate('Score');
-    return dispatch(actions.search_select_score(scoreObj));
-  },
+  view_load_score: (scoreObj, levelObj) =>
+    dispatch(actions.view_load_score(scoreObj, levelObj)),
 });
 
 class LinksScreen extends React.Component {
@@ -41,8 +38,7 @@ class LinksScreen extends React.Component {
   };
 
   render() {
-    console.log('ScoreScreen', this.props);
-    console.log('ScoreScreen', this.props.search.selectedScore.levels);
+    console.log('ScoreScreen.props', this.props);
 
     return (
       <ScrollView>
@@ -58,16 +54,32 @@ class LinksScreen extends React.Component {
             }
           />
         </ImageBackground>
-        {this.props.search.selectedScore !== undefined && (
+        {this.props.view.scoreView.message !== undefined &&
+          this.props.view.scoreView.message.length > 0 && (
+            <Row>
+              <Text>{this.props.view.scoreView.message}</Text>
+            </Row>
+          )}
+        {this.props.view.scoreView.selectedScore !== undefined && (
           <Row>
             <View styleName="vertical">
               <View styleName="horizontal space-between">
-                <Heading>{this.props.search.selectedScore.title}</Heading>
-                <Caption>BPM: {this.props.search.selectedScore.BPM}</Caption>
+                <Heading>
+                  {this.props.view.scoreView.selectedScore.title}
+                </Heading>
+                <Caption>
+                  BPM: {this.props.view.scoreView.selectedScore.BPM}
+                </Caption>
               </View>
-              {this.props.search.selectedScore.levels.map((e, i) => (
+              {this.props.view.scoreView.selectedScore.levels.map((e, i) => (
                 <View styleName="horizontal">
                   <Button
+                    onPress={() =>
+                      this.props.view_load_score(
+                        this.props.view.scoreView.selectedScore,
+                        data_levels[i]
+                      )
+                    }
                     styleName={
                       'confirmation secondary' + (e != null ? '' : ' muted')
                     }

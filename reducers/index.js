@@ -17,11 +17,12 @@ const defaultState = {
   },
   view: {
     scoreView: {
-      status: '',
-      selectedScoreLink: undefined,
       selectedScore: undefined,
+      status: '',
+      selectedWikiLink: undefined,
+      selectedScoreLink: undefined,
       selectedLevel: undefined,
-      message: '',
+      message: '先搜索谱面再到这里来查看咚!',
       modalVisible: false,
     },
   },
@@ -30,9 +31,9 @@ const defaultState = {
   },
 };
 
-const reducer = (state, actionData) => {
+const reducer = (state = defaultState, actionData) => {
   console.log('Reducer.actionData', actionData);
-  let rv = !state ? defaultState : merge({}, state);
+  let rv = merge({}, state);
 
   switch (actionData.type) {
     /* Action Item Panel */
@@ -45,7 +46,22 @@ const reducer = (state, actionData) => {
       return rv;
     }
     case 'SEARCH_SELECT_SCORE': {
-      rv.search.selectedScore = actionData.scoreObj;
+      rv.view.scoreView.selectedScore = actionData.scoreObj;
+      rv.view.scoreView.message = '';
+      return rv;
+    }
+    case 'VIEW_LOAD_SCORE_STARTED': {
+      /*rv.view.scoreView.selectedScore = actionData.scoreObj;
+      rv.view.scoreView.selectedLevel = actionData.levelObj;*/
+      rv.view.scoreView.message = '请求数据中';
+      rv.view.scoreView.status = 'started';
+      return rv;
+    }
+    case 'VIEW_LOAD_SCORE_LOADING': {
+      rv.view.scoreView.selectedScore = actionData.scoreObj;
+      rv.view.scoreView.selectedLevel = actionData.levelObj;
+      rv.view.scoreView.message = '';
+      rv.view.scoreView.status = 'loading';
       return rv;
     }
     default: {

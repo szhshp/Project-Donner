@@ -60,6 +60,14 @@ class SearchScreen extends React.Component {
 
   render() {
     // console.log('Search.this.props', this.props);
+    let scoreInSelectedCategory;
+    if (this.props.search.selectedCategory !== undefined){
+
+      scoreInSelectedCategory = data_scores.scores.find(
+        e => e.categoryID == this.props.search.selectedCategory.categoryID
+      );
+    }
+
     return (
       <Screen>
         <ImageBackground
@@ -87,13 +95,11 @@ class SearchScreen extends React.Component {
           />
         </ImageBackground>
         <Divider styleName="line" />
-        {this.props.search.selectedCategory !== undefined && (
+        
+        {scoreInSelectedCategory !== undefined && (
           <ListView
             data={
-              data_scores.scores.find(
-                e =>
-                  e.categoryID == this.props.search.selectedCategory.categoryID
-              ).data
+              scoreInSelectedCategory.data
             }
             renderRow={s => {
               return (

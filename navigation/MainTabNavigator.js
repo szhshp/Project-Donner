@@ -6,6 +6,7 @@ import {
 } from 'react-navigation';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider, connect } from 'react-redux';
+import thunk from 'redux-thunk';
 import {
   reduxifyNavigator,
   createReactNavigationReduxMiddleware,
@@ -113,7 +114,7 @@ const mapStateToProps = state => ({
 
 const AppWithNavigationState = connect(mapStateToProps)(App);
 
-const store = createStore(appReducer, applyMiddleware(middleware));
+const store = createStore(appReducer, applyMiddleware(middleware, thunk));
 
 class Root extends React.Component {
   render() {

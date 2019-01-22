@@ -42,7 +42,7 @@ export const view_load_score = (scoreObj, levelObj) => {
     'https://www.wikihouse.com/taiko/index.php?' +
     Encoding.urlEncode(encodedScorePath);
 
-  return load_score(selectedWikiLink);
+  return load_score(selectedWikiLink, levelObj);
 };
 
 /**
@@ -50,9 +50,14 @@ export const view_load_score = (scoreObj, levelObj) => {
  * @param  {[string]} selectedWikiLink: wiki link
  * @return  {[thunk]} load score function, will do fetch in it
  */
-export const load_score = selectedWikiLink => (dispatch, getState) => {
+export const load_score = (selectedWikiLink, selectedLevel) => (
+  dispatch,
+  getState
+) => {
   dispatch({
     type: 'VIEW_LOAD_SCORE_STARTED',
+    selectedWikiLink,
+    selectedLevel,
   });
   return fetch(selectedWikiLink)
     .then(res => res.text())
@@ -60,9 +65,10 @@ export const load_score = selectedWikiLink => (dispatch, getState) => {
       let $ = Cheerio.load(res);
       return $('img[title$=".png"]').attr('src');
     })
-    .then(res => {
+    .then(selectedScoreLink => {
       dispatch({
         type: 'VIEW_LOAD_SCORE_FINISHED',
+        selectedScoreLink,
       });
     })
     .catch(err => {

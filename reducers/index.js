@@ -22,7 +22,7 @@ const defaultState = {
       selectedWikiLink: undefined,
       selectedScoreLink: undefined,
       selectedLevel: undefined,
-      message: '先搜索谱面再到这 里来查看咚!',
+      message: '先搜索谱面再到这里来查看咚!',
       modalVisible: false,
     },
   },
@@ -50,23 +50,6 @@ const reducer = (state = defaultState, actionData) => {
       rv.view.scoreView.message = '';
       return rv;
     }
-    case 'VIEW_LOAD_SCORE_STARTED': {
-      rv.view.scoreView.message = '请求数据中';
-      rv.view.scoreView.status = 'started';
-      return rv;
-    }
-    case 'VIEW_LOAD_SCORE_FINISHED': {
-      rv.view.scoreView.selectedScore = actionData.scoreObj;
-      rv.view.scoreView.selectedLevel = actionData.levelObj;
-      rv.view.scoreView.message = '请求数据完毕';
-      rv.view.scoreView.status = 'success';
-      return rv;
-    }
-    case 'VIEW_LOAD_SCORE_FAILED': {
-      rv.view.scoreView.message = '请求数据失败, 可能 Namco 不在服务区?';
-      rv.view.scoreView.status = 'failed';
-      return rv;
-    }
     case 'SEARCH_TOGGLE_SEARCHBAR': {
       rv.search.searchBar.toggleSearchBar = !rv.search.searchBar
         .toggleSearchBar;
@@ -75,6 +58,24 @@ const reducer = (state = defaultState, actionData) => {
     case 'SEARCH_SEARCHBAR_ONCHANGE': {
       rv.search.searchBar.keyword = actionData.keyword;
       rv.search.searchBar.keyword = actionData.keyword;
+      return rv;
+    }
+    case 'VIEW_LOAD_SCORE_STARTED': {
+      rv.view.scoreView.message = '请求数据中';
+      rv.view.scoreView.status = 'started';
+      rv.view.scoreView.selectedWikiLink = actionData.selectedWikiLink;
+      rv.view.scoreView.selectedLevel = actionData.selectedLevel;
+      return rv;
+    }
+    case 'VIEW_LOAD_SCORE_FINISHED': {
+      rv.view.scoreView.message = '请求数据完毕';
+      rv.view.scoreView.status = 'success';
+      rv.view.scoreView.selectedScoreLink = `https://www.wikihouse.com/taiko/${actionData.selectedScoreLink}`;
+      return rv;
+    }
+    case 'VIEW_LOAD_SCORE_FAILED': {
+      rv.view.scoreView.message = '请求数据失败, 可能 Namco 不在服务区?';
+      rv.view.scoreView.status = 'failed';
       return rv;
     }
     default: {

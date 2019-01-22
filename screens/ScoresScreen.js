@@ -10,8 +10,10 @@ import {
   Button,
   Heading,
   Divider,
+  Spinner,
   Row,
   Image,
+  ImagePreview,
   Subtitle,
   View,
   Caption,
@@ -39,7 +41,6 @@ class LinksScreen extends React.Component {
 
   render() {
     console.log('ScoreScreen.props', this.props);
-
     return (
       <ScrollView>
         <ImageBackground
@@ -50,20 +51,15 @@ class LinksScreen extends React.Component {
           <NavigationBar
             styleName="clear"
             centerComponent={
-              <Title style={Styles.CSS.HeaderTextPaddingTop}>查看谱面</Title>
+              <Title style={Styles.CSS.headerTextPaddingTop}>查看谱面</Title>
             }
           />
         </ImageBackground>
-        {this.props.view.scoreView.message !== undefined &&
-          this.props.view.scoreView.message.length > 0 && (
-            <Row>
-              <Text>{this.props.view.scoreView.message}</Text>
-            </Row>
-          )}
+
         {this.props.view.scoreView.selectedScore !== undefined && (
           <Row>
             <View styleName="vertical">
-              <View styleName="horizontal space-between">
+              <View styleName="space-between">
                 <Heading>
                   {this.props.view.scoreView.selectedScore.title}
                 </Heading>
@@ -99,6 +95,23 @@ class LinksScreen extends React.Component {
               ))}
             </View>
           </Row>
+        )}
+        
+        {this.props.view.scoreView.status == 'started' && <Spinner />}
+
+        {this.props.view.scoreView.message !== undefined &&
+          this.props.view.scoreView.message.length > 0 && (
+            <Row>
+              <Text>{this.props.view.scoreView.message}</Text>
+            </Row>
+          )}
+
+        {this.props.view.scoreView.selectedScoreLink !== undefined && (
+          <ImagePreview
+            source={{ uri: this.props.view.scoreView.selectedScoreLink }}
+            width={375}
+            height={375}
+          />
         )}
       </ScrollView>
     );

@@ -11,7 +11,7 @@ const defaultState = {
     searchBar: {
       toggleSearchBar: false,
       keyword: '',
-      previousKeyword: [],
+      // previousKeyword: [],
     },
     selectedCategory: undefined,
   },
@@ -22,7 +22,7 @@ const defaultState = {
       selectedWikiLink: undefined,
       selectedScoreLink: undefined,
       selectedLevel: undefined,
-      message: '先搜索谱面再到这里来查看咚!',
+      message: '先搜索谱面再到这 里来查看咚!',
       modalVisible: false,
     },
   },
@@ -51,17 +51,30 @@ const reducer = (state = defaultState, actionData) => {
       return rv;
     }
     case 'VIEW_LOAD_SCORE_STARTED': {
-      /*rv.view.scoreView.selectedScore = actionData.scoreObj;
-      rv.view.scoreView.selectedLevel = actionData.levelObj;*/
       rv.view.scoreView.message = '请求数据中';
       rv.view.scoreView.status = 'started';
       return rv;
     }
-    case 'VIEW_LOAD_SCORE_LOADING': {
+    case 'VIEW_LOAD_SCORE_FINISHED': {
       rv.view.scoreView.selectedScore = actionData.scoreObj;
       rv.view.scoreView.selectedLevel = actionData.levelObj;
-      rv.view.scoreView.message = '';
-      rv.view.scoreView.status = 'loading';
+      rv.view.scoreView.message = '请求数据完毕';
+      rv.view.scoreView.status = 'success';
+      return rv;
+    }
+    case 'VIEW_LOAD_SCORE_FAILED': {
+      rv.view.scoreView.message = '请求数据失败, 可能 Namco 不在服务区?';
+      rv.view.scoreView.status = 'failed';
+      return rv;
+    }
+    case 'SEARCH_TOGGLE_SEARCHBAR': {
+      rv.search.searchBar.toggleSearchBar = !rv.search.searchBar
+        .toggleSearchBar;
+      return rv;
+    }
+    case 'SEARCH_SEARCHBAR_ONCHANGE': {
+      rv.search.searchBar.keyword = actionData.keyword;
+      rv.search.searchBar.keyword = actionData.keyword;
       return rv;
     }
     default: {

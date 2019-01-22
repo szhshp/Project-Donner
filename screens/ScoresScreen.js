@@ -44,7 +44,7 @@ class LinksScreen extends React.Component {
       <ScrollView>
         <ImageBackground
           style={{
-            height: 60,
+            height: 70,
             backgroundColor: Styles.Colors.backgroundColor,
           }}>
           <NavigationBar

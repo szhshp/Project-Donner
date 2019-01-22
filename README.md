@@ -72,7 +72,7 @@ Format:
     searchBar: { 
       toggleSearchBar: [true|false], /* search bar input open? */
       keyword: [''|String],
-      previousKeyword: [Array<String>],
+      // previousKeyword: [Array<String>], /* previous searched keyword, TBD */
     },
     selectedCategory: [undefined|categoryObj], /* selected an category? */
   },

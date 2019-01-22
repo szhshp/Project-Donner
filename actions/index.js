@@ -1,4 +1,5 @@
 const Encoding = require('encoding-japanese');
+const Cheerio = require('cheerio');
 
 /**
  * [action creator - search score screen, selected a category]
@@ -50,16 +51,39 @@ export const view_load_score = (scoreObj, levelObj) => {
  * @return  {[thunk]} load score function, will do fetch in it
  */
 export const load_score = selectedWikiLink => (dispatch, getState) => {
-  dispatch(view_load_score_started);
-  return view_load_score_loading(selectedWikiLink);
+  dispatch({
+    type: 'VIEW_LOAD_SCORE_STARTED',
+  });
+  return fetch(selectedWikiLink)
+    .then(res => res.text())
+    .then(res => {
+      let $ = Cheerio.load(res);
+      return $('img[title$=".png"]').attr('src');
+    })
+    .then(res => {
+      dispatch({
+        type: 'VIEW_LOAD_SCORE_FINISHED',
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: 'VIEW_LOAD_SCORE_FAILED',
+      });
+    });
 };
 
-export const view_load_score_started = () => ({
-  type: 'VIEW_LOAD_SCORE_STARTED',
+/**
+ * [action creator - search score screen, toggle searchbar]
+ */
+export const search_toggle_searchBar = () => ({
+  type: 'SEARCH_TOGGLE_SEARCHBAR',
 });
 
-export const view_load_score_loading = (scoreObj, levelObj) => ({
-  type: 'VIEW_LOAD_SCORE_LOADING',
-  scoreObj,
-  levelObj,
+/**
+ * [action creator - search score screen, search bar keyword change handler]
+ * @param  {[string]} keyword: the keyword
+ */
+export const search_searchBar_onChange = keyword => ({
+  type: 'SEARCH_SEARCHBAR_ONCHANGE',
+  keyword,
 });

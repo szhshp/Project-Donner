@@ -19,8 +19,8 @@ const Colors = {
 };
 
 const CSS = {
-  HeaderTextPaddingTop: {
-    paddingTop: 10,
+  headerTextPaddingTop: {
+    paddingTop: 15,
   },
   textColorWithinBackground: {
     color: Colors.textColorWithinBackground,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleShee, Modal } from 'react-native';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import {
@@ -8,12 +8,12 @@ import {
   NavigationBar,
   Title,
   Button,
+  ImagePreview,
   Heading,
   Divider,
-  Spinner,
   Row,
+  Spinner,
   Image,
-  ImagePreview,
   Subtitle,
   View,
   Caption,
@@ -51,7 +51,7 @@ class LinksScreen extends React.Component {
           <NavigationBar
             styleName="clear"
             centerComponent={
-              <Title style={Styles.CSS.headerTextPaddingTop}>查看谱面</Title>
+              <Title style={Styles.CSS.HeaderTextPaddingTop}>查看谱面</Title>
             }
           />
         </ImageBackground>
@@ -59,10 +59,12 @@ class LinksScreen extends React.Component {
         {this.props.view.scoreView.selectedScore !== undefined && (
           <Row>
             <View styleName="vertical">
-              <View styleName="space-between">
+              <View styleName="horizontal space-between">
                 <Heading>
                   {this.props.view.scoreView.selectedScore.title}
                 </Heading>
+              </View>
+              <View>
                 <Caption>
                   BPM: {this.props.view.scoreView.selectedScore.BPM}
                 </Caption>
@@ -80,7 +82,7 @@ class LinksScreen extends React.Component {
                       'confirmation secondary' + (e != null ? '' : ' muted')
                     }
                     style={Styles.CSS.buttonPrimary}>
-                    <Text>
+                    <Text style={Styles.CSS.buttonText}>
                       {data_levels[i].transTitle}: {e != null ? e + '★' : '-'}
                     </Text>
                   </Button>
@@ -89,29 +91,31 @@ class LinksScreen extends React.Component {
                       'confirmation secondary' + (e != null ? '' : ' muted')
                     }
                     style={Styles.CSS.buttonSecondary}>
-                    <Text>下载</Text>
+                    <Text style={Styles.CSS.buttonText}>下载</Text>
                   </Button>
                 </View>
               ))}
             </View>
           </Row>
         )}
-        
-        {this.props.view.scoreView.status == 'started' && <Spinner />}
-
         {this.props.view.scoreView.message !== undefined &&
           this.props.view.scoreView.message.length > 0 && (
             <Row>
               <Text>{this.props.view.scoreView.message}</Text>
             </Row>
           )}
+        {this.props.view.scoreView.status == 'started' && <Spinner />}
 
         {this.props.view.scoreView.selectedScoreLink !== undefined && (
-          <ImagePreview
-            source={{ uri: this.props.view.scoreView.selectedScoreLink }}
-            width={375}
-            height={375}
-          />
+          <Modal visible={true} transparent={true}>
+            <ImageViewer
+              imageUrls={[
+                {
+                  url: this.props.view.scoreView.selectedScoreLink,
+                },
+              ]}
+            />
+          </Modal>
         )}
       </ScrollView>
     );

@@ -31,6 +31,9 @@ const CSS = {
   buttonSecondary: {
     backgroundColor: 'red',
   },
+  buttonText:{
+    fontSize: 16,
+  }
 };
 
 export default { Colors, CSS };

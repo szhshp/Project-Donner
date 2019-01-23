@@ -69,7 +69,7 @@ const reducer = (state = defaultState, actionData) => {
     }
     case 'VIEW_LOAD_SCORE_FINISHED': {
       rv.view.scoreView.message = '请求数据完毕';
-      rv.view.scoreView.status = 'success';
+      rv.view.scoreView.status = 'succeed';
       rv.view.scoreView.selectedScoreLink = `https://www.wikihouse.com/taiko/${actionData.selectedScoreLink}`;
       return rv;
     }

@@ -27,25 +27,6 @@ export const search_select_score = scoreObj => ({
 });
 
 /**
- * [action creator - view score screen, request for score picture]
- * @param  {[object]} scoreObj
- * @param  {[object]} levelObj
- * @return  {[func]}
- */
-export const view_load_score = (scoreObj, levelObj) => {
-  let scorePath = `難易度表/${levelObj.title}/${scoreObj.title}`;
-  let encodedScorePath = Encoding.convert(Encoding.stringToCode(scorePath), {
-    to: 'EUCJP',
-    from: 'UNICODE',
-  });
-  let selectedWikiLink =
-    'https://www.wikihouse.com/taiko/index.php?' +
-    Encoding.urlEncode(encodedScorePath);
-
-  return load_score(selectedWikiLink, levelObj);
-};
-
-/**
  * [action creator - view score screen, loading score]
  * @param  {[string]} selectedWikiLink: wiki link
  * @return  {[thunk]} load score function, will do fetch in it
@@ -92,4 +73,31 @@ export const search_toggle_searchBar = () => ({
 export const search_searchBar_onChange = keyword => ({
   type: 'SEARCH_SEARCHBAR_ONCHANGE',
   keyword,
+});
+
+/**
+ * [action creator - view score screen, request for score picture]
+ * @param  {[object]} scoreObj
+ * @param  {[object]} levelObj
+ * @return  {[func]}
+ */
+export const view_load_score = (scoreObj, levelObj) => {
+  let scorePath = `難易度表/${levelObj.title}/${scoreObj.title}`;
+  let encodedScorePath = Encoding.convert(Encoding.stringToCode(scorePath), {
+    to: 'EUCJP',
+    from: 'UNICODE',
+  });
+  let selectedWikiLink =
+    'https://www.wikihouse.com/taiko/index.php?' +
+    Encoding.urlEncode(encodedScorePath);
+
+  return load_score(selectedWikiLink, levelObj);
+};
+
+/**
+ * [action creator - view score screen, reset/hide the modal]
+ * @return  {[func]}
+ */
+export const view_reset_scoreModal = () => ({
+  type: 'VIEW_RESET_SCOREMODAL',
 });

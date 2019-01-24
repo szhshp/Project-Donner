@@ -70,12 +70,20 @@ const reducer = (state = defaultState, actionData) => {
     case 'VIEW_LOAD_SCORE_FINISHED': {
       rv.view.scoreView.message = '请求数据完毕';
       rv.view.scoreView.status = 'succeed';
-      rv.view.scoreView.selectedScoreLink = `https://www.wikihouse.com/taiko/${actionData.selectedScoreLink}`;
+      rv.view.scoreView.selectedScoreLink = `https://www.wikihouse.com/taiko/${
+        actionData.selectedScoreLink
+      }`;
       return rv;
     }
     case 'VIEW_LOAD_SCORE_FAILED': {
       rv.view.scoreView.message = '请求数据失败, 可能 Namco 不在服务区?';
       rv.view.scoreView.status = 'failed';
+      return rv;
+    }
+    case 'VIEW_RESET_SCOREMODAL': {
+      rv.view.scoreView.message = undefined;
+      rv.view.scoreView.status = undefined;
+      rv.view.scoreView.selectedScoreLink = undefined;
       return rv;
     }
     default: {

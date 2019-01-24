@@ -19,6 +19,7 @@ import {
   Caption,
 } from '@shoutem/ui';
 import { FileSystem } from 'expo';
+import Styles from '../constants/Styles';
 
 import { MonoText } from '../components/StyledText';
 import Row from '../components/Row';
@@ -38,7 +39,7 @@ export default class HomeScreen extends React.Component {
         <Row>
           <Image
             source={require('../assets/images/logo.png')}
-            style={styles.logoImage}
+            style={Styles.logoImage}
           />
         </Row>
 
@@ -47,18 +48,28 @@ export default class HomeScreen extends React.Component {
         </Row>
 
         <Row>
-          <Caption style={styles.highLightText}>
-            当前版本: {data_version.version}
+          <Caption style={Styles.highLightText}>
+            当前版本: {data_version.updateHistory.slice(-1)[0].version}
           </Caption>
-          <Caption style={styles.highLightText}>
-            谱面数据: {data_version.updateDate}
+          <Caption style={Styles.highLightText}>
+            谱面数据: {data_version.scoreData.updateDate}
           </Caption>
         </Row>
         <Row>
-          <Text styles={{ textAlign: 'center' }}>
-            一个过不了 <Text style={styles.strokeText}>鬼7</Text> 鬼9 的太鼓玩家
+          <Text Styles={{ textAlign: 'center' }}>
+            一个过不了 <Text style={Styles.strokeText}>鬼7</Text> 鬼9 的太鼓玩家
           </Text>
-          <Text styles={{ textAlign: 'center' }}>无聊时制作的谱面查看 App</Text>
+          <Text Styles={{ textAlign: 'center' }}>无聊时制作的谱面查看 App</Text>
+        </Row>
+
+        <Row style={Styles.headerTextPaddingTop}>
+          <Heading>更新历史</Heading>
+          {data_version.updateHistory
+            .slice(-2)
+            .map(e => [
+              <Caption style={Styles.highLightText}>{e.version}</Caption>,
+              e.detail.map(m => <Text>{m}</Text>),
+            ])}
         </Row>
       </Screen>
     );
@@ -67,44 +78,17 @@ export default class HomeScreen extends React.Component {
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {
       return (
-        <Text style={styles.developmentModeText}>
+        <Text style={Styles.developmentModeText}>
           --- Development Mode ---
           {/* {learnMoreButton} */}
         </Text>
       );
     } else {
       return (
-        <Text style={styles.developmentModeText}>
+        <Text style={Styles.developmentModeText}>
           --- Non-Development Mode ---
         </Text>
       );
     }
   }
 }
-
-const styles = StyleSheet.create({
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 14,
-    lineHeight: 19,
-    textAlign: 'center',
-  },
-  highLightText: {
-    fontSize: 12,
-    backgroundColor: 'rgba(0,0,0,0.15)',
-    paddingLeft: 3,
-    paddingRight: 3,
-    marginVertical: 5,
-  },
-  logoImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-  },
-  strokeText: {
-    textDecorationLine: 'line-through',
-  },
-});

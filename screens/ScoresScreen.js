@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleShee, Modal } from 'react-native';
+import { ScrollView, StyleShee, Modal, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import {
@@ -32,6 +32,9 @@ const mapStateToProps = state => state.app;
 const mapDispatchToProps = dispatch => ({
   view_load_score: (scoreObj, levelObj) =>
     dispatch(actions.view_load_score(scoreObj, levelObj)),
+  view_reset_scoreModal: () => {
+    dispatch(actions.view_reset_scoreModal());
+  },
 });
 
 class LinksScreen extends React.Component {
@@ -91,7 +94,10 @@ class LinksScreen extends React.Component {
                       'confirmation secondary' + (e != null ? '' : ' muted')
                     }
                     style={Styles.CSS.buttonSecondary}>
-                    <Text style={Styles.CSS.buttonText}>下载</Text>
+                    <Text style={Styles.CSS.buttonText}>
+                      下载
+                      <Ionicons name="md-download" size={16} />
+                    </Text>
                   </Button>
                 </View>
               ))}
@@ -106,17 +112,18 @@ class LinksScreen extends React.Component {
           )}
         {this.props.view.scoreView.status == 'started' && <Spinner />}
 
-        {this.props.view.scoreView.selectedScoreLink !== undefined && (
-          <Modal visible={true} transparent={true}>
-            <ImageViewer
-              imageUrls={[
-                {
-                  url: this.props.view.scoreView.selectedScoreLink,
-                },
-              ]}
-            />
-          </Modal>
-        )}
+        <Modal
+          visible={this.props.view.scoreView.selectedScoreLink !== undefined}
+          transparent={true}
+          onRequestClose={() => this.props.view_reset_scoreModal()}>
+          <ImageViewer
+            imageUrls={[
+              {
+                url: this.props.view.scoreView.selectedScoreLink,
+              },
+            ]}
+          />
+        </Modal>
       </ScrollView>
     );
   }

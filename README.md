@@ -10,7 +10,13 @@
 
 ## TODO
 
-- [ ] Search History
+- [ ] Version history
+- [ ] Score modal save event
+- [ ] Settings IO
+- [ ] Setting screen
+- [ ] Score download
+- [x] Navigation style
+- [x] Score modal back event
  
 ## Technology Stacks
  

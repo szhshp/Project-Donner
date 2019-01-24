@@ -94,6 +94,9 @@ const AppNavigator = createBottomTabNavigator(
       activeTintColor: Styles.Colors.backgroundColor,
       activeBackgroundColor: Styles.Colors.tabIconDefault,
       inactiveBackgroundColor: Styles.Colors.backgroundColor,
+      labelStyle: {
+        paddingBottom: 5,
+      },
     },
   }
 );

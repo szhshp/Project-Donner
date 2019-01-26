@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleShee, Modal, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import {
@@ -8,14 +8,19 @@ import {
   NavigationBar,
   Title,
   Button,
+  ImagePreview,
   Heading,
   Divider,
   Row,
+  Spinner,
   Image,
   Subtitle,
   View,
   Caption,
 } from '@shoutem/ui';
+
+import ImageViewer from 'react-native-image-zoom-viewer';
+const Cheerio = require('cheerio');
 
 import Styles from '../constants/Styles';
 import data_scores from '../data/Scores';
@@ -25,13 +30,10 @@ import * as actions from '../actions';
 
 const mapStateToProps = state => state.app;
 const mapDispatchToProps = dispatch => ({
-  search_select_category: scoreObj =>
-    dispatch(actions.search_select_category(scoreObj)),
-  search_reset_category: () => dispatch(actions.search_reset_category()),
-  search_select_score: scoreObj => {
-    /* dispath and navigate to Score Screen */
-    this.props.navigation.navigate('Score');
-    return dispatch(actions.search_select_score(scoreObj));
+  view_load_score: (scoreObj, levelObj) =>
+    dispatch(actions.view_load_score(scoreObj, levelObj)),
+  view_reset_scoreModal: () => {
+    dispatch(actions.view_reset_scoreModal());
   },
 });
 
@@ -41,38 +43,49 @@ class LinksScreen extends React.Component {
   };
 
   render() {
-    console.log('ScoreScreen', this.props);
-    console.log('ScoreScreen', this.props.search.selectedScore.levels);
+    console.log('ScoreScreen.props', this.props);
 
     return (
       <ScrollView>
         <ImageBackground
           style={{
-            height: 60,
+            height: 65,
             backgroundColor: Styles.Colors.backgroundColor,
           }}>
           <NavigationBar
             styleName="clear"
             centerComponent={
-              <Title style={Styles.CSS.HeaderTextPaddingTop}>查看谱面</Title>
+              <Title style={Styles.CSS.headerTextPaddingTop}>查看谱面</Title>
             }
           />
         </ImageBackground>
-        {this.props.search.selectedScore !== undefined && (
+        {this.props.view.scoreView.selectedScore !== undefined && (
           <Row>
             <View styleName="vertical">
               <View styleName="horizontal space-between">
-                <Heading>{this.props.search.selectedScore.title}</Heading>
-                <Caption>BPM: {this.props.search.selectedScore.BPM}</Caption>
+                <Heading>
+                  {this.props.view.scoreView.selectedScore.title}
+                </Heading>
               </View>
-              {this.props.search.selectedScore.levels.map((e, i) => (
+              <View>
+                <Caption>
+                  BPM: {this.props.view.scoreView.selectedScore.BPM}
+                </Caption>
+              </View>
+              {this.props.view.scoreView.selectedScore.levels.map((e, i) => (
                 <View styleName="horizontal">
                   <Button
+                    onPress={() =>
+                      this.props.view_load_score(
+                        this.props.view.scoreView.selectedScore,
+                        data_levels[i]
+                      )
+                    }
                     styleName={
                       'confirmation secondary' + (e != null ? '' : ' muted')
                     }
                     style={Styles.CSS.buttonPrimary}>
-                    <Text>
+                    <Text style={Styles.CSS.buttonText}>
                       {data_levels[i].transTitle}: {e != null ? e + '★' : '-'}
                     </Text>
                   </Button>
@@ -81,13 +94,36 @@ class LinksScreen extends React.Component {
                       'confirmation secondary' + (e != null ? '' : ' muted')
                     }
                     style={Styles.CSS.buttonSecondary}>
-                    <Text>下载</Text>
+                    <Text style={Styles.CSS.buttonText}>
+                      下载
+                      <Ionicons name="md-download" size={16} />
+                    </Text>
                   </Button>
                 </View>
               ))}
             </View>
           </Row>
         )}
+        {this.props.view.scoreView.message !== undefined &&
+          this.props.view.scoreView.message.length > 0 && (
+            <Row>
+              <Text>{this.props.view.scoreView.message}</Text>
+            </Row>
+          )}
+        {this.props.view.scoreView.status == 'started' && <Spinner />}
+
+        <Modal
+          visible={this.props.view.scoreView.selectedScoreLink !== undefined}
+          transparent={true}
+          onRequestClose={() => this.props.view_reset_scoreModal()}>
+          <ImageViewer
+            imageUrls={[
+              {
+                url: this.props.view.scoreView.selectedScoreLink,
+              },
+            ]}
+          />
+        </Modal>
       </ScrollView>
     );
   }

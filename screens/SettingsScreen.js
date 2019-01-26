@@ -1,14 +1,123 @@
 import React from 'react';
 import { ExpoConfigView } from '@expo/samples';
+import { connect } from 'react-redux';
+import {
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Switch,
+  Image,
+} from 'react-native';
+import {
+  Text,
+  View,
+  Screen,
+  ListView,
+  TextInput,
+  Title,
+  Divider,
+  Icon,
+  Button,
+  Row,
+  ImageBackground,
+  NavigationBar,
+} from '@shoutem/ui';
+import { Ionicons } from '@expo/vector-icons';
+import { FileSystem, WebBrowser } from 'expo';
 
-export default class SettingsScreen extends React.Component {
+import * as actions from '../actions';
+import Styles from '../constants/Styles';
+
+import data_version from '../data/Version';
+
+const mapStateToProps = state => state.app;
+const mapDispatchToProps = dispatch => ({
+  setting_toggleAutoSave: v => {
+    dispatch(actions.setting_toggleAutoSave(v));
+  },
+});
+
+class SettingsScreen extends React.Component {
   static navigationOptions = {
-    title: 'app.json',
+    title: null,
+    header: null,
   };
 
   render() {
-    /* Go ahead and delete ExpoConfigView and replace it with your
-     * content, we just wanted to give you a quick view of your config */
-    return <ExpoConfigView />;
+    return [
+      <ImageBackground
+        style={{
+          height: 65,
+          backgroundColor: Styles.Colors.backgroundColor,
+        }}>
+        <NavigationBar
+          styleName="clear"
+          centerComponent={
+            <Title style={Styles.CSS.headerTextPaddingTop}>系统设定</Title>
+          }
+        />
+      </ImageBackground>,
+      <ScrollView style={{ flex: 1 }}>
+        <View style={Styles.CSS.sectionViewContainer}>
+          <Text style={Styles.CSS.scetionText}>
+            功能 <Ionicons name="md-settings" size={18} />
+          </Text>
+        </View>
+        <TouchableOpacity
+          style={Styles.CSS.rowViewContainer}
+          onPress={this.props.setting_toggleAutoSave}>
+          <Text>自动保存谱面 (省流量)</Text>
+          <Switch
+            onValueChange={this.props.setting_toggleAutoSave}
+            value={this.props.settings.autoSave}
+          />
+        </TouchableOpacity>
+        <View style={Styles.CSS.sectionViewContainer}>
+          <Text style={Styles.CSS.scetionText}>
+            关于 <Ionicons name="md-person" size={18} />
+          </Text>
+        </View>
+        <TouchableOpacity style={Styles.CSS.rowViewContainer}>
+          <Text>当前版本</Text>
+          <Text>{data_version.updateHistory.slice(-1)[0].version}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={Styles.CSS.rowViewContainer}>
+          <Text>
+            作者: szhshp
+            {'\n'}
+            博客: http://szhshp.org{' '}
+          </Text>
+          <Image
+            source={require('../assets/images/szhshp.png')}
+            style={Styles.CSS.logoImageSmall}
+          />
+        </TouchableOpacity>
+
+        {[
+          '夸奖作者',
+          '感谢作者',
+          '给作者留言',
+          '给作者买咖啡',
+          '给作者买鼓棒',
+          '送作者一万块钱',
+          '给作者介绍对象',
+          '送作者一架大力鼓',
+        ].map(e => (
+          <TouchableOpacity
+            style={Styles.CSS.rowViewContainer}
+            onPress={() => {
+              WebBrowser.openBrowserAsync('http://szhshp.org');
+            }}>
+            <Text>{e}</Text>
+            <Ionicons name="md-open" size={18} />
+          </TouchableOpacity>
+        ))}
+      </ScrollView>,
+    ];
   }
 }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingsScreen);

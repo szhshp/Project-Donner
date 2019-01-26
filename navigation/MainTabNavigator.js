@@ -6,6 +6,7 @@ import {
 } from 'react-navigation';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider, connect } from 'react-redux';
+import thunk from 'redux-thunk';
 import {
   reduxifyNavigator,
   createReactNavigationReduxMiddleware,
@@ -82,10 +83,10 @@ SettingsStack.navigationOptions = {
 
 const AppNavigator = createBottomTabNavigator(
   {
-    SearchStack,
-    HomeStack,
-    ScoresStack,
     SettingsStack,
+    HomeStack,
+    SearchStack,
+    ScoresStack,
   },
   {
     tabBarOptions: {
@@ -93,8 +94,11 @@ const AppNavigator = createBottomTabNavigator(
       activeTintColor: Styles.Colors.backgroundColor,
       activeBackgroundColor: Styles.Colors.tabIconDefault,
       inactiveBackgroundColor: Styles.Colors.backgroundColor,
+      labelStyle: {
+        paddingBottom: 3,
+      },
     },
-  }
+  },
 );
 
 const navReducer = createNavigationReducer(AppNavigator);
@@ -113,7 +117,7 @@ const mapStateToProps = state => ({
 
 const AppWithNavigationState = connect(mapStateToProps)(App);
 
-const store = createStore(appReducer, applyMiddleware(middleware));
+const store = createStore(appReducer, applyMiddleware(middleware, thunk));
 
 class Root extends React.Component {
   render() {

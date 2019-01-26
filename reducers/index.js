@@ -11,17 +11,18 @@ const defaultState = {
     searchBar: {
       toggleSearchBar: false,
       keyword: '',
-      previousKeyword: [],
+      // previousKeyword: [],
     },
     selectedCategory: undefined,
   },
   view: {
     scoreView: {
-      status: '',
-      selectedScoreLink: undefined,
       selectedScore: undefined,
+      status: '',
+      selectedWikiLink: undefined,
+      selectedScoreLink: undefined,
       selectedLevel: undefined,
-      message: '',
+      message: '先搜索谱面再到这里来查看咚!',
       modalVisible: false,
     },
   },
@@ -30,9 +31,9 @@ const defaultState = {
   },
 };
 
-const reducer = (state, actionData) => {
+const reducer = (state = defaultState, actionData) => {
   console.log('Reducer.actionData', actionData);
-  let rv = !state ? defaultState : merge({}, state);
+  let rv = merge({}, state);
 
   switch (actionData.type) {
     /* Action Item Panel */
@@ -45,7 +46,52 @@ const reducer = (state, actionData) => {
       return rv;
     }
     case 'SEARCH_SELECT_SCORE': {
-      rv.search.selectedScore = actionData.scoreObj;
+      rv.view.scoreView.selectedScore = actionData.scoreObj;
+      rv.view.scoreView.message = '';
+      return rv;
+    }
+    case 'SEARCH_TOGGLE_SEARCHBAR': {
+      rv.search.searchBar.toggleSearchBar = !rv.search.searchBar
+        .toggleSearchBar;
+      return rv;
+    }
+    case 'SEARCH_SEARCHBAR_ONCHANGE': {
+      rv.search.searchBar.keyword = actionData.keyword;
+      rv.search.searchBar.keyword = actionData.keyword;
+      return rv;
+    }
+    case 'VIEW_LOAD_SCORE_STARTED': {
+      rv.view.scoreView.message = '请求数据中';
+      rv.view.scoreView.status = 'started';
+      rv.view.scoreView.selectedWikiLink = actionData.selectedWikiLink;
+      rv.view.scoreView.selectedLevel = actionData.selectedLevel;
+      return rv;
+    }
+    case 'VIEW_LOAD_SCORE_FINISHED': {
+      rv.view.scoreView.message = '请求数据完毕';
+      rv.view.scoreView.status = 'succeed';
+      rv.view.scoreView.selectedScoreLink = `https://www.wikihouse.com/taiko/${
+        actionData.selectedScoreLink
+      }`;
+      return rv;
+    }
+    case 'VIEW_LOAD_SCORE_FAILED': {
+      rv.view.scoreView.message = '请求数据失败, 可能 Namco 不在服务区?';
+      rv.view.scoreView.status = 'failed';
+      return rv;
+    }
+    case 'VIEW_RESET_SCOREMODAL': {
+      rv.view.scoreView.message = undefined;
+      rv.view.scoreView.status = undefined;
+      rv.view.scoreView.selectedScoreLink = undefined;
+      return rv;
+    }
+    case 'SETTING_READ_FINISHED':{
+      if(actionData.settings) rv.settings = actionData.settings;
+      return rv
+    }
+    case 'SETTING_CHANGE_AUTOSAVE':{
+      rv.settings.autoSave = actionData.autoSave;
       return rv;
     }
     default: {

@@ -31,7 +31,7 @@ const CSS = {
   buttonSecondary: {
     backgroundColor: 'red',
   },
-  buttonText:{
+  buttonText: {
     fontSize: 16,
   },
   developmentModeText: {
@@ -57,6 +57,37 @@ const CSS = {
   },
   strokeText: {
     textDecorationLine: 'line-through',
+  },
+  logoImageSmall: {
+    width: 35,
+    height: 35,
+    resizeMode: 'contain',
+  },
+  scetionText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  sectionViewContainer: {
+    justifyContent: 'center',
+    flex: 1,
+    paddingRight: 15,
+    paddingLeft: 15,
+    paddingTop: 13,
+    paddingBottom: 13,
+    borderBottomWidth: 0.5,
+    flexDirection: 'row',
+    borderColor: '#c9c9c9',
+  },
+  rowViewContainer: {
+    justifyContent: 'space-between',
+    flex: 1,
+    paddingRight: 15,
+    paddingLeft: 15,
+    paddingTop: 13,
+    paddingBottom: 13,
+    borderBottomWidth: 0.5,
+    borderColor: '#c9c9c9',
+    flexDirection: 'row',
   },
 };
 

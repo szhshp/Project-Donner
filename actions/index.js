@@ -1,3 +1,5 @@
+import { FileSystem, WebBrowser } from 'expo';
+
 const Encoding = require('encoding-japanese');
 const Cheerio = require('cheerio');
 
@@ -29,7 +31,7 @@ export const search_select_score = scoreObj => ({
 /**
  * [action creator - view score screen, loading score]
  * @param  {[string]} selectedWikiLink: wiki link
- * @return  {[thunk]} load score function, will do fetch in it
+ * @return  {[thunk]} fetch to load score link
  */
 export const load_score = (selectedWikiLink, selectedLevel) => (
   dispatch,
@@ -79,7 +81,7 @@ export const search_searchBar_onChange = keyword => ({
  * [action creator - view score screen, request for score picture]
  * @param  {[object]} scoreObj
  * @param  {[object]} levelObj
- * @return  {[func]}
+ * @return  {[func]} load score func
  */
 export const view_load_score = (scoreObj, levelObj) => {
   let scorePath = `難易度表/${levelObj.title}/${scoreObj.title}`;
@@ -101,3 +103,71 @@ export const view_load_score = (scoreObj, levelObj) => {
 export const view_reset_scoreModal = () => ({
   type: 'VIEW_RESET_SCOREMODAL',
 });
+
+/**
+ * [action creator - setting screen, change auto save config]
+ * @param  {[boolean]} autoSave: auto save on/off
+ */
+export const setting_toggleAutoSave = autoSave => (dispatch, getState) => {
+  dispatch({
+    type: 'SETTING_CHANGE_AUTOSAVE',
+    autoSave,
+  });
+  return dispatch(setting_write());
+};
+
+/**
+ * [action creator - global, write setting obj in state to file]
+ * @return  {[thunk]} TODO
+ */
+export const setting_write = () => (dispatch, getState) => {
+  console.log('setting.write', getState().app.settings);
+  FileSystem.writeAsStringAsync(
+    `${FileSystem.documentDirectory}setting.json`,
+    JSON.stringify(getState().app.settings)
+  );
+};
+
+/**
+ * [action creator - global, read setting file to state]
+ * @return  {[thunk]} file IO to read config file
+ */
+export const setting_read = () => (dispatch, getState) => {
+  /*dispatch({
+    type: 'SETTING_READ_STARTED',
+  });*/
+
+  return FileSystem.getInfoAsync(`${FileSystem.documentDirectory}setting.json`)
+    .then(res => {
+      console.log('Setting.read.fileStatus', res);
+      if (res.exists) {
+        /* if exists then read and push to state */
+        FileSystem.readAsStringAsync(
+          `${FileSystem.documentDirectory}setting.json`
+        )
+          .then(res => JSON.parse(res))
+          .then(res => {
+            dispatch({
+              type: 'SETTING_READ_FINISHED',
+              settings: res,
+            });
+            console.log('Setting.read.Finished', res);
+          });
+      } else {
+        /* if not exists then create new one and push default value to state */
+        FileSystem.writeAsStringAsync(
+          `${FileSystem.documentDirectory}setting.json`,
+          JSON.stringify(getState().app.settings)
+        ).then(res => {
+          dispatch({
+            type: 'SETTING_READ_FINISHED',
+          });
+        });
+      }
+    })
+    .catch(err => {
+      dispatch({
+        type: 'SETTING_READ_FAILED',
+      });
+    });
+};

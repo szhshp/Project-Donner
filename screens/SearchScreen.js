@@ -72,49 +72,49 @@ class SearchScreen extends React.Component {
       );
     }
 
-    return (
-      <Screen>
-        <ImageBackground
-          style={{
-            height: 70,
-            backgroundColor: Styles.Colors.backgroundColor,
-          }}>
-          <NavigationBar
-            styleName="clear"
-            leftComponent={
-              /* only show back button when selected category */
-              this.props.search.selectedCategory !== undefined && (
-                <Button styleName="clear">
-                  <Ionicons
-                    name="md-arrow-back"
-                    size={24}
-                    onPress={() => this.props.search_reset_category()}
-                    style={[
-                      Styles.CSS.textColorWithinBackground,
-                      Styles.CSS.headerTextPaddingTop,
-                    ]}
-                  />
-                </Button>
-              )
-            }
-            centerComponent={
-              <Title style={Styles.CSS.headerTextPaddingTop}>搜索谱面</Title>
-            }
-            rightComponent={
+    return [
+      <ImageBackground
+        style={{
+          height: 65,
+          backgroundColor: Styles.Colors.backgroundColor,
+        }}>
+        <NavigationBar
+          styleName="clear"
+          leftComponent={
+            /* only show back button when selected category */
+            this.props.search.selectedCategory !== undefined && (
               <Button styleName="clear">
                 <Ionicons
-                  name="md-search"
+                  name="md-arrow-back"
                   size={24}
-                  onPress={() => this.props.search_toggle_searchBar()}
+                  onPress={() => this.props.search_reset_category()}
                   style={[
                     Styles.CSS.textColorWithinBackground,
                     Styles.CSS.headerTextPaddingTop,
                   ]}
                 />
               </Button>
-            }
-          />
-        </ImageBackground>
+            )
+          }
+          centerComponent={
+            <Title style={Styles.CSS.headerTextPaddingTop}>搜索谱面</Title>
+          }
+          rightComponent={
+            <Button styleName="clear">
+              <Ionicons
+                name="md-search"
+                size={24}
+                onPress={() => this.props.search_toggle_searchBar()}
+                style={[
+                  Styles.CSS.textColorWithinBackground,
+                  Styles.CSS.headerTextPaddingTop,
+                ]}
+              />
+            </Button>
+          }
+        />
+      </ImageBackground>,
+      <Screen>
         {this.props.search.searchBar.toggleSearchBar === true && (
           <View>
             <TextInput
@@ -211,8 +211,8 @@ class SearchScreen extends React.Component {
             }}
           />
         )}
-      </Screen>
-    );
+      </Screen>,
+    ];
   }
 }
 

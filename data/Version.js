@@ -27,6 +27,16 @@ const data_version = {
         'Updated: Navigation Style',
       ],
     },
+    {
+      date: '2019-01-25',
+      version: 'V0.22',
+      detail: ['Updated: Setting screen', 'Updated: Global styles'],
+    },
+      {
+      date: '2019-01-26',
+      version: 'V0.23',
+      detail: ['Updated: Setting config file read/write'],
+    },
   ],
 };
 

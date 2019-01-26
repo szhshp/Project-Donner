@@ -86,6 +86,14 @@ const reducer = (state = defaultState, actionData) => {
       rv.view.scoreView.selectedScoreLink = undefined;
       return rv;
     }
+    case 'SETTING_READ_FINISHED':{
+      if(actionData.settings) rv.settings = actionData.settings;
+      return rv
+    }
+    case 'SETTING_CHANGE_AUTOSAVE':{
+      rv.settings.autoSave = actionData.autoSave;
+      return rv;
+    }
     default: {
       return rv;
     }

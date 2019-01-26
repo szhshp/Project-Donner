@@ -83,10 +83,10 @@ SettingsStack.navigationOptions = {
 
 const AppNavigator = createBottomTabNavigator(
   {
-    SearchStack,
-    HomeStack,
-    ScoresStack,
     SettingsStack,
+    HomeStack,
+    SearchStack,
+    ScoresStack,
   },
   {
     tabBarOptions: {
@@ -95,10 +95,10 @@ const AppNavigator = createBottomTabNavigator(
       activeBackgroundColor: Styles.Colors.tabIconDefault,
       inactiveBackgroundColor: Styles.Colors.backgroundColor,
       labelStyle: {
-        paddingBottom: 5,
+        paddingBottom: 3,
       },
     },
-  }
+  },
 );
 
 const navReducer = createNavigationReducer(AppNavigator);

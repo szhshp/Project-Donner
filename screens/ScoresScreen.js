@@ -48,13 +48,13 @@ class LinksScreen extends React.Component {
       <ScrollView>
         <ImageBackground
           style={{
-            height: 70,
+            height: 65,
             backgroundColor: Styles.Colors.backgroundColor,
           }}>
           <NavigationBar
             styleName="clear"
             centerComponent={
-              <Title style={Styles.CSS.HeaderTextPaddingTop}>查看谱面</Title>
+              <Title style={Styles.CSS.headerTextPaddingTop}>查看谱面</Title>
             }
           />
         </ImageBackground>

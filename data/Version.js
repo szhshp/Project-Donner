@@ -39,8 +39,11 @@ const data_version = {
     },
     {
       date: '2019-01-27',
-      version: 'V0.24',
-      detail: ['Updated: Download score'],
+      version: 'V0.3',
+      detail: [
+        'Updated: Download score',
+        'Fixed: Error when toggle autoSave from on to off',
+      ],
     },
   ],
 };

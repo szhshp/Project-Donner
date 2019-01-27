@@ -7,57 +7,65 @@ const Cheerio = require('cheerio');
  * [action creator - search score screen, selected a category]
  * @param  {[object]} categoryObj [the selected category object]
  */
-export const search_select_category = categoryObj => ({
-  type: 'SEARCH_SELECT_CATEGORY',
+export const searchScreen_select_category = categoryObj => ({
+  type: 'SEARCHSCREEN_SELECT_CATEGORY',
   categoryObj,
 });
 
 /**
  * [action creator - search score screen, reset category select]
  */
-export const search_reset_category = () => ({
-  type: 'SEARCH_RESET_CATEGORY',
+export const searchScreen_reset_category = () => ({
+  type: 'SEARCHSCREEN_RESET_CATEGORY',
 });
 
 /**
  * [action creator - search score screen, selected a score]
  * @param  {[object]} scoreObj [the selected score object]
  */
-export const search_select_score = scoreObj => ({
-  type: 'SEARCH_SELECT_SCORE',
+export const searchScreen_select_score = scoreObj => ({
+  type: 'SEARCHSCREEN_SELECT_SCORE',
   scoreObj,
 });
 
 /**
- * [action creator - view score screen, loading score, spider the picture link in wiki link]
+ * [action creator - view score screen, spider the picture link in wiki link]
  * @param  {[string]} selectedWikiLink: wiki link
- * @param  {[obj]} selectedLevel: selected level obj
- * @param  {[boolean]} onlyDownload: true = just download score but do not show modal
+ * @param  {[obj]} scoreObj: selected score obj
+ * @param  {[obj]} levelObj: selected level obj
+ * @param  {[boolean]} downloadOnly: true = just download score but do not show modal
  * @return  {[thunk]} fetch score picture
  */
-export const load_score = (selectedWikiLink, selectedLevel, onlyDownload) => (
-  dispatch,
-  getState
-) => {
+export const fetch_score = (
+  selectedWikiLink,
+  scoreObj,
+  levelObj,
+  downloadOnly
+) => (dispatch, getState) => {
+
+  /* fetch score event started*/
   dispatch({
     type: 'VIEWSCREEN_LOAD_SCORE_STARTED',
     selectedWikiLink,
-    selectedLevel,
+    levelObj,
   });
+
   return fetch(selectedWikiLink)
     .then(res => res.text())
     .then(res => {
+      /* spider the png source link */
       let $ = Cheerio.load(res);
       return $('img[title$=".png"]').attr('src');
     })
     .then(selectedScoreLink => {
-      if (onlyDownload) {
-        dispatch(viewScreen_download_score(selectedScoreLink));
+      if (downloadOnly) {
+        /* download */
+        dispatch(download_score(selectedScoreLink, scoreObj, levelObj));
       } else {
+        /* show in modal */
         dispatch({
           type: 'VIEWSCREEN_LOAD_SCORE_FINISHED',
           selectedScoreLink,
-          onlyDownload: false,
         });
       }
     })
@@ -71,16 +79,16 @@ export const load_score = (selectedWikiLink, selectedLevel, onlyDownload) => (
 /**
  * [action creator - search score screen, toggle searchbar]
  */
-export const search_toggle_searchBar = () => ({
-  type: 'SEARCH_TOGGLE_SEARCHBAR',
+export const searchScreen_toggle_searchBar = () => ({
+  type: 'SEARCHSCREEN_TOGGLE_SEARCHBAR',
 });
 
 /**
  * [action creator - search score screen, search bar keyword change handler]
  * @param  {[string]} keyword: the keyword
  */
-export const search_searchBar_onChange = keyword => ({
-  type: 'SEARCH_SEARCHBAR_ONCHANGE',
+export const searchScreen_searchBar_onChange = keyword => ({
+  type: 'SEARCHSCREEN_SEARCHBAR_ONCHANGE',
   keyword,
 });
 
@@ -90,7 +98,7 @@ export const search_searchBar_onChange = keyword => ({
  * @param  {[object]} levelObj
  * @return  {[func]} load score func
  */
-export const viewScreen_load_score = (scoreObj, levelObj, onlyDownload) => {
+export const viewScreen_load_score = (scoreObj, levelObj, downloadOnly) => {
   let scorePath = `難易度表/${levelObj.title}/${scoreObj.title}`;
   let encodedScorePath = Encoding.convert(Encoding.stringToCode(scorePath), {
     to: 'EUCJP',
@@ -100,7 +108,7 @@ export const viewScreen_load_score = (scoreObj, levelObj, onlyDownload) => {
     'https://www.wikihouse.com/taiko/index.php?' +
     Encoding.urlEncode(encodedScorePath);
 
-  return load_score(selectedWikiLink, levelObj, onlyDownload);
+  return fetch_score(selectedWikiLink, scoreObj, levelObj, downloadOnly);
 };
 
 /**
@@ -112,17 +120,19 @@ export const viewScreen_reset_scoreModal = () => ({
 
 /**
  * [action creator - view score screen, save score locally]
+ * @param  {[string]} selectedScoreLink: direct score picture link
+ * @return  {[func]} download, save locally, refresh the state
  */
-export const viewScreen_download_score = selectedScoreLink => (
+export const download_score = (selectedScoreLink, scoreObj, levelObj) => (
   dispatch,
   getState
 ) => {
-  // TODO: dispatch download start
-  console.log('score.download ', {
+  // TODO: dispatch download start action?
+  /*console.log('score.download.started', {
     selectedScoreLink,
     pictureLink: `https://www.wikihouse.com/taiko/${selectedScoreLink}`,
     localPath: `${FileSystem.documentDirectory}${selectedScoreLink}`,
-  });
+  });*/
 
   /* download the score picture */
   return FileSystem.getInfoAsync(
@@ -138,19 +148,21 @@ export const viewScreen_download_score = selectedScoreLink => (
       )
         .then(res => {
           dispatch({
-            type: 'VIEWSCREEN_LOAD_SCORE_FINISHED',
-            selectedScoreLink,
-            onlyDownload: false, /* TODO */ 
+            type: 'VIEWSCREEN_DOWNLOAD_SCORE_FINISHED',
+            relativePath: `savedScore/${selectedScoreLink.replace(
+              'attach/',
+              ''
+            )}`,
+            scoreObj,
+            levelObj,
           });
-          /*TODO: refresh setting */
-          /*dispatch(setting_read());*/
+        })
+        .then(res => {
+          dispatch(setting_write());
         })
         .catch(err => console.log(err));
     } else {
-      console.log('created savedScore folder');
-      FileSystem.makeDirectoryAsync(
-        `${FileSystem.documentDirectory}savedScore/`
-      );
+      console.log('Error: savedscore folder not exists');
     }
   });
 };
@@ -172,7 +184,7 @@ export const setting_toggleAutoSave = autoSave => (dispatch, getState) => {
  * @return  {[thunk]} TODO
  */
 export const setting_write = () => (dispatch, getState) => {
-  console.log('setting.write', getState().app.settings);
+  // console.log('setting.write', getState().app.settings);
   FileSystem.writeAsStringAsync(
     `${FileSystem.documentDirectory}setting.json`,
     JSON.stringify(getState().app.settings)
@@ -184,15 +196,17 @@ export const setting_write = () => (dispatch, getState) => {
  * @return  {[thunk]} file IO to read config file
  */
 export const setting_read = () => (dispatch, getState) => {
+
+  // TODO: dispatch setting read start action?
   /*dispatch({
     type: 'SETTING_READ_STARTED',
   });*/
-
+  console.log('setting read started');
   return FileSystem.getInfoAsync(`${FileSystem.documentDirectory}setting.json`)
     .then(res => {
-      console.log('Setting.read.fileStatus', res);
+      console.log('setting.read.configExists', res);
       if (res.exists) {
-        /* if exists then read and push to state */
+        /* load the app setting */
         FileSystem.readAsStringAsync(
           `${FileSystem.documentDirectory}setting.json`
         )
@@ -202,10 +216,9 @@ export const setting_read = () => (dispatch, getState) => {
               type: 'SETTING_READ_FINISHED',
               settings: res,
             });
-            console.log('Setting.read.Finished', res);
           });
       } else {
-        /* if not exists then create new setting file and push default value to state */
+        /* create new setting file and push default value to state */
         FileSystem.writeAsStringAsync(
           `${FileSystem.documentDirectory}setting.json`,
           JSON.stringify(getState().app.settings)
@@ -214,6 +227,7 @@ export const setting_read = () => (dispatch, getState) => {
             type: 'SETTING_READ_FINISHED',
           });
         });
+
         /* create a new sub folder */
         FileSystem.makeDirectoryAsync(
           `${FileSystem.documentDirectory}savedScore/`

@@ -10,10 +10,16 @@
 
 ## TODO
 
+### Dev
+
+- [ ] Log saved score file lists to console
+
 ### Feature
-- [ ] Score modal save event
+- [ ] Exclude duplicated downloaded scores
+- [ ] Save event in modal
 - [ ] Load downloaded score
-- [ ] Move `saveScore` create operation to home screen
+- [ ] Display the saved score in search screen and score screen
+- [x] Move 'savedScore' validation inside function `read_setting` 
 - [x] Score download
 - [x] Version history
 - [x] Setting screen
@@ -21,14 +27,11 @@
 - [x] Navigation style
 - [x] Score modal back event
  
-### Bug
-- [ ] Error when toggle autoSave from on to off
-
 ## Technology Stacks
  
 - React Native
 - Expo
-- React Native Element UI
+- React Native Shoutem UI
  
 ## Actions
  
@@ -46,28 +49,25 @@ Format:
 ```json
 {
     autoSave: true,
+    [Other Setting Key-Values]
 }
 ```
  
 ### Saved Scores
  
-- Stores settings of this application into single json file
-- Path: `${FileSystem.documentDirectory}setting.json`
- 
-Format:
- 
-```json
-{
-  [
-    title: '愛唄',
-    subTitle: '',
-    BPM: '85',
-    levels: [2, null, 2, 3],
-    levelID: 0,
-  ]
-}
-```
- 
+- Stores the downloaded score picture in local storage
+- Path: `${FileSystem.documentDirectory}savedScore/`
+  - Example: `${FileSystem.documentDirectory}savedScore/C6F1B0D7C5D9C9BD2FA4AAA4CB2FA4B5A4A4A4BFA4DE32303030_6F2E706E67`
+  - **Although no extension name, this is directly a picture file**
+  - File path contains 3 parts:
+    1. Fixed path: `${FileSystem.documentDirectory}savedScore/`
+    2. File name: `C6F1B0D7C5D9C9BD2FA4AAA4CB2FA4B5A4A4A4BFA4DE32303030_6F2E706E67`
+       - File name is taken from the final part of picture path: 
+       ```
+        https://www.wikihouse.com/taiko/attach/C6F1B0D7C5D9C9BD2FA4AAA4CB2FA4B5A4A4A4BFA4DE32303030_6F2E706E67
+       ```
+- For enumeration of saved score, simply enumerate the files in `${FileSystem.documentDirectory}savedScore/`
+
 ## Dynamic Data
  
 ### States
@@ -77,8 +77,8 @@ Format:
   settings: {   /* application level settings */
     autoSave: [true|false], /* autoSave when score loaded? */
   },
-  favoriteScore: {
-    scores: [Array<scoreObj>], /* scores marked as favourite */
+  savedScore: {
+    arrScoreFile: [Array<scoreObj>], /* saved score file name array */
   },
   search: {
     searchBar: { 
@@ -111,13 +111,13 @@ Format:
  
 - Stores application version data
 - Path: `data/Version.js`
- 
+- Check the final element as latest version
+
 Format:
  
 ```js
 const data_Version = {
   updateDate: '2019-01-06',
-  version: 'V0.6',
   updateHistory: [
     {
       version: 'V0.1',

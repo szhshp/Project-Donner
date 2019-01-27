@@ -3,9 +3,9 @@ import merge from 'deepmerge';
 const defaultState = {
   settings: {
     autoSave: false,
-  },
-  favoriteScore: {
-    scores: [],
+    savedScore: {
+      arrScore: [],
+    },
   },
   search: {
     searchBar: {
@@ -37,31 +37,31 @@ const reducer = (state = defaultState, actionData) => {
 
   switch (actionData.type) {
     /* Action Item Panel */
-    case 'SEARCH_SELECT_CATEGORY': {
+    case 'SEARCHSCREEN_SELECT_CATEGORY': {
       rv.search.selectedCategory = actionData.categoryObj;
       return rv;
     }
-    case 'SEARCH_RESET_CATEGORY': {
+    case 'SEARCHSCREEN_RESET_CATEGORY': {
       rv.search.selectedCategory = undefined;
       return rv;
     }
-    case 'SEARCH_SELECT_SCORE': {
+    case 'SEARCHSCREEN_SELECT_SCORE': {
       rv.view.scoreView.selectedScore = actionData.scoreObj;
       rv.view.scoreView.message = '';
       return rv;
     }
-    case 'SEARCH_TOGGLE_SEARCHBAR': {
+    case 'SEARCHSCREEN_TOGGLE_SEARCHBAR': {
       rv.search.searchBar.toggleSearchBar = !rv.search.searchBar
         .toggleSearchBar;
       return rv;
     }
-    case 'SEARCH_SEARCHBAR_ONCHANGE': {
+    case 'SEARCHSCREEN_SEARCHBAR_ONCHANGE': {
       rv.search.searchBar.keyword = actionData.keyword;
       rv.search.searchBar.keyword = actionData.keyword;
       return rv;
     }
     case 'VIEWSCREEN_LOAD_SCORE_STARTED': {
-      rv.view.scoreView.message = '请求数据中';
+      rv.view.scoreView.message = '请求数据中...';
       rv.view.scoreView.status = 'started';
       rv.view.scoreView.selectedWikiLink = actionData.selectedWikiLink;
       rv.view.scoreView.selectedLevel = actionData.selectedLevel;
@@ -69,15 +69,21 @@ const reducer = (state = defaultState, actionData) => {
     }
     case 'VIEWSCREEN_LOAD_SCORE_FINISHED': {
       rv.view.scoreView.status = 'succeed';
-
-      if (actionData.onlyDownload) {
-        rv.view.scoreView.message = '下载完成';
-      } else {
-        rv.view.scoreView.message = '请求数据完毕';
-        rv.view.scoreView.selectedScoreLink = `https://www.wikihouse.com/taiko/${
-          actionData.selectedScoreLink
-        }`;
-      }
+      rv.view.scoreView.message = '请求数据完毕';
+      rv.view.scoreView.selectedScoreLink = `https://www.wikihouse.com/taiko/${
+        actionData.selectedScoreLink
+      }`;
+      return rv;
+    }
+    case 'VIEWSCREEN_DOWNLOAD_SCORE_FINISHED': {
+      rv.view.scoreView.status = 'succeed';
+      rv.view.scoreView.message = '下载完成';
+      // TODO: find duplicated
+      rv.settings.savedScore.arrScore.push({
+        scoreObj: actionData.scoreObj,
+        levelObj: actionData.levelObj,
+        relativePath: actionData.relativePath,
+      });
       return rv;
     }
     case 'VIEWSCREEN_LOAD_SCORE_FAILED': {
@@ -95,6 +101,11 @@ const reducer = (state = defaultState, actionData) => {
       if (actionData.settings) rv.settings = actionData.settings;
       return rv;
     }
+    /*case 'SAVEDSCORE_READ_FINISHED': {
+      if (actionData.arrScoreFile)
+        rv.savedScore.arrScoreFile = actionData.arrScoreFile;
+      return rv;
+    }*/
     case 'SETTING_CHANGE_AUTOSAVE': {
       rv.settings.autoSave = actionData.autoSave;
       return rv;

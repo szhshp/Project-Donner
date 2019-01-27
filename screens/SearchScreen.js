@@ -34,14 +34,14 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  search_select_category: scoreObj =>
-    dispatch(actions.search_select_category(scoreObj)),
-  search_reset_category: () => dispatch(actions.search_reset_category()),
-  search_select_score: scoreObj =>
-    dispatch(actions.search_select_score(scoreObj)),
-  search_toggle_searchBar: () => dispatch(actions.search_toggle_searchBar()),
-  search_searchBar_onChange: keyword =>
-    dispatch(actions.search_searchBar_onChange(keyword)),
+  searchScreen_select_category: scoreObj =>
+    dispatch(actions.searchScreen_select_category(scoreObj)),
+  searchScreen_reset_category: () => dispatch(actions.searchScreen_reset_category()),
+  searchScreen_select_score: scoreObj =>
+    dispatch(actions.searchScreen_select_score(scoreObj)),
+  searchScreen_toggle_searchBar: () => dispatch(actions.searchScreen_toggle_searchBar()),
+  searchScreen_searchBar_onChange: keyword =>
+    dispatch(actions.searchScreen_searchBar_onChange(keyword)),
 });
 
 class SearchScreen extends React.Component {
@@ -53,7 +53,7 @@ class SearchScreen extends React.Component {
 
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      this.props.search_reset_category();
+      this.props.searchScreen_reset_category();
       return true;
     });
   }
@@ -87,7 +87,7 @@ class SearchScreen extends React.Component {
                 <Ionicons
                   name="md-arrow-back"
                   size={24}
-                  onPress={() => this.props.search_reset_category()}
+                  onPress={() => this.props.searchScreen_reset_category()}
                   style={[
                     Styles.CSS.textColorWithinBackground,
                     Styles.CSS.headerTextPaddingTop,
@@ -104,7 +104,7 @@ class SearchScreen extends React.Component {
               <Ionicons
                 name="md-search"
                 size={24}
-                onPress={() => this.props.search_toggle_searchBar()}
+                onPress={() => this.props.searchScreen_toggle_searchBar()}
                 style={[
                   Styles.CSS.textColorWithinBackground,
                   Styles.CSS.headerTextPaddingTop,
@@ -122,7 +122,7 @@ class SearchScreen extends React.Component {
               clearButtonMode={true}
               placeholder={'请输入关键字...'}
               value={this.props.search.searchBar.keyword}
-              onChangeText={text => this.props.search_searchBar_onChange(text)}
+              onChangeText={text => this.props.searchScreen_searchBar_onChange(text)}
             />
           </View>
         )}
@@ -143,7 +143,7 @@ class SearchScreen extends React.Component {
                   ) > -1 && (
                   <TouchableOpacity
                     onPress={() => {
-                      this.props.search_select_score(s);
+                      this.props.searchScreen_select_score(s);
                       this.props.navigation.navigate('Score');
                     }}>
                     <Row styleName="small">
@@ -193,7 +193,7 @@ class SearchScreen extends React.Component {
               return (
                 scoreCategoryCount > 0 && (
                   <TouchableOpacity
-                    onPress={() => this.props.search_select_category(c)}>
+                    onPress={() => this.props.searchScreen_select_category(c)}>
                     <Row styleName="small" style={{ backgroundColor: c.color }}>
                       <Text style={{ color: Styles.Colors.defaultText }}>
                         {c.title}

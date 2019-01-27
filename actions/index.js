@@ -29,16 +29,18 @@ export const search_select_score = scoreObj => ({
 });
 
 /**
- * [action creator - view score screen, loading score]
+ * [action creator - view score screen, loading score, spider the picture link in wiki link]
  * @param  {[string]} selectedWikiLink: wiki link
- * @return  {[thunk]} fetch to load score link
+ * @param  {[obj]} selectedLevel: selected level obj
+ * @param  {[boolean]} onlyDownload: true = just download score but do not show modal
+ * @return  {[thunk]} fetch score picture
  */
-export const load_score = (selectedWikiLink, selectedLevel) => (
+export const load_score = (selectedWikiLink, selectedLevel, onlyDownload) => (
   dispatch,
   getState
 ) => {
   dispatch({
-    type: 'VIEW_LOAD_SCORE_STARTED',
+    type: 'VIEWSCREEN_LOAD_SCORE_STARTED',
     selectedWikiLink,
     selectedLevel,
   });
@@ -49,14 +51,19 @@ export const load_score = (selectedWikiLink, selectedLevel) => (
       return $('img[title$=".png"]').attr('src');
     })
     .then(selectedScoreLink => {
-      dispatch({
-        type: 'VIEW_LOAD_SCORE_FINISHED',
-        selectedScoreLink,
-      });
+      if (onlyDownload) {
+        dispatch(viewScreen_download_score(selectedScoreLink));
+      } else {
+        dispatch({
+          type: 'VIEWSCREEN_LOAD_SCORE_FINISHED',
+          selectedScoreLink,
+          onlyDownload: false,
+        });
+      }
     })
     .catch(err => {
       dispatch({
-        type: 'VIEW_LOAD_SCORE_FAILED',
+        type: 'VIEWSCREEN_LOAD_SCORE_FAILED',
       });
     });
 };
@@ -83,7 +90,7 @@ export const search_searchBar_onChange = keyword => ({
  * @param  {[object]} levelObj
  * @return  {[func]} load score func
  */
-export const view_load_score = (scoreObj, levelObj) => {
+export const viewScreen_load_score = (scoreObj, levelObj, onlyDownload) => {
   let scorePath = `難易度表/${levelObj.title}/${scoreObj.title}`;
   let encodedScorePath = Encoding.convert(Encoding.stringToCode(scorePath), {
     to: 'EUCJP',
@@ -93,16 +100,60 @@ export const view_load_score = (scoreObj, levelObj) => {
     'https://www.wikihouse.com/taiko/index.php?' +
     Encoding.urlEncode(encodedScorePath);
 
-  return load_score(selectedWikiLink, levelObj);
+  return load_score(selectedWikiLink, levelObj, onlyDownload);
 };
 
 /**
  * [action creator - view score screen, reset/hide the modal]
- * @return  {[func]}
  */
-export const view_reset_scoreModal = () => ({
-  type: 'VIEW_RESET_SCOREMODAL',
+export const viewScreen_reset_scoreModal = () => ({
+  type: 'VIEWSCREEN_RESET_SCOREMODAL',
 });
+
+/**
+ * [action creator - view score screen, save score locally]
+ */
+export const viewScreen_download_score = selectedScoreLink => (
+  dispatch,
+  getState
+) => {
+  // TODO: dispatch download start
+  console.log('score.download ', {
+    selectedScoreLink,
+    pictureLink: `https://www.wikihouse.com/taiko/${selectedScoreLink}`,
+    localPath: `${FileSystem.documentDirectory}${selectedScoreLink}`,
+  });
+
+  /* download the score picture */
+  return FileSystem.getInfoAsync(
+    `${FileSystem.documentDirectory}savedScore/`
+  ).then(res => {
+    if (res.exists) {
+      FileSystem.downloadAsync(
+        `https://www.wikihouse.com/taiko/${selectedScoreLink}`,
+        `${FileSystem.documentDirectory}savedScore/${selectedScoreLink.replace(
+          'attach/',
+          ''
+        )}`
+      )
+        .then(res => {
+          dispatch({
+            type: 'VIEWSCREEN_LOAD_SCORE_FINISHED',
+            selectedScoreLink,
+            onlyDownload: false, /* TODO */ 
+          });
+          /*TODO: refresh setting */
+          /*dispatch(setting_read());*/
+        })
+        .catch(err => console.log(err));
+    } else {
+      console.log('created savedScore folder');
+      FileSystem.makeDirectoryAsync(
+        `${FileSystem.documentDirectory}savedScore/`
+      );
+    }
+  });
+};
 
 /**
  * [action creator - setting screen, change auto save config]
@@ -154,7 +205,7 @@ export const setting_read = () => (dispatch, getState) => {
             console.log('Setting.read.Finished', res);
           });
       } else {
-        /* if not exists then create new one and push default value to state */
+        /* if not exists then create new setting file and push default value to state */
         FileSystem.writeAsStringAsync(
           `${FileSystem.documentDirectory}setting.json`,
           JSON.stringify(getState().app.settings)
@@ -163,6 +214,10 @@ export const setting_read = () => (dispatch, getState) => {
             type: 'SETTING_READ_FINISHED',
           });
         });
+        /* create a new sub folder */
+        FileSystem.makeDirectoryAsync(
+          `${FileSystem.documentDirectory}savedScore/`
+        );
       }
     })
     .catch(err => {

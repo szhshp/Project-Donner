@@ -60,37 +60,42 @@ const reducer = (state = defaultState, actionData) => {
       rv.search.searchBar.keyword = actionData.keyword;
       return rv;
     }
-    case 'VIEW_LOAD_SCORE_STARTED': {
+    case 'VIEWSCREEN_LOAD_SCORE_STARTED': {
       rv.view.scoreView.message = '请求数据中';
       rv.view.scoreView.status = 'started';
       rv.view.scoreView.selectedWikiLink = actionData.selectedWikiLink;
       rv.view.scoreView.selectedLevel = actionData.selectedLevel;
       return rv;
     }
-    case 'VIEW_LOAD_SCORE_FINISHED': {
-      rv.view.scoreView.message = '请求数据完毕';
+    case 'VIEWSCREEN_LOAD_SCORE_FINISHED': {
       rv.view.scoreView.status = 'succeed';
-      rv.view.scoreView.selectedScoreLink = `https://www.wikihouse.com/taiko/${
-        actionData.selectedScoreLink
-      }`;
+
+      if (actionData.onlyDownload) {
+        rv.view.scoreView.message = '下载完成';
+      } else {
+        rv.view.scoreView.message = '请求数据完毕';
+        rv.view.scoreView.selectedScoreLink = `https://www.wikihouse.com/taiko/${
+          actionData.selectedScoreLink
+        }`;
+      }
       return rv;
     }
-    case 'VIEW_LOAD_SCORE_FAILED': {
+    case 'VIEWSCREEN_LOAD_SCORE_FAILED': {
       rv.view.scoreView.message = '请求数据失败, 可能 Namco 不在服务区?';
       rv.view.scoreView.status = 'failed';
       return rv;
     }
-    case 'VIEW_RESET_SCOREMODAL': {
+    case 'VIEWSCREEN_RESET_SCOREMODAL': {
       rv.view.scoreView.message = undefined;
       rv.view.scoreView.status = undefined;
       rv.view.scoreView.selectedScoreLink = undefined;
       return rv;
     }
-    case 'SETTING_READ_FINISHED':{
-      if(actionData.settings) rv.settings = actionData.settings;
-      return rv
+    case 'SETTING_READ_FINISHED': {
+      if (actionData.settings) rv.settings = actionData.settings;
+      return rv;
     }
-    case 'SETTING_CHANGE_AUTOSAVE':{
+    case 'SETTING_CHANGE_AUTOSAVE': {
       rv.settings.autoSave = actionData.autoSave;
       return rv;
     }

@@ -83,10 +83,10 @@ SettingsStack.navigationOptions = {
 
 const AppNavigator = createBottomTabNavigator(
   {
-    SettingsStack,
     HomeStack,
     SearchStack,
     ScoresStack,
+    SettingsStack,
   },
   {
     tabBarOptions: {

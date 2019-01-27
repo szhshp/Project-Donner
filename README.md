@@ -10,14 +10,20 @@
 
 ## TODO
 
-- [ ] Version history
+### Feature
 - [ ] Score modal save event
-- [ ] Settings IO
-- [ ] Setting screen
-- [ ] Score download
+- [ ] Load downloaded score
+- [ ] Move `saveScore` create operation to home screen
+- [x] Score download
+- [x] Version history
+- [x] Setting screen
+- [x] Setting config file read/write
 - [x] Navigation style
 - [x] Score modal back event
  
+### Bug
+- [ ] Error when toggle autoSave from on to off
+
 ## Technology Stacks
  
 - React Native

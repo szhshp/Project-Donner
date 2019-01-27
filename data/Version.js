@@ -32,10 +32,15 @@ const data_version = {
       version: 'V0.22',
       detail: ['Updated: Setting screen', 'Updated: Global styles'],
     },
-      {
+    {
       date: '2019-01-26',
       version: 'V0.23',
       detail: ['Updated: Setting config file read/write'],
+    },
+    {
+      date: '2019-01-27',
+      version: 'V0.24',
+      detail: ['Updated: Download score'],
     },
   ],
 };

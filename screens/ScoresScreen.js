@@ -30,11 +30,13 @@ import * as actions from '../actions';
 
 const mapStateToProps = state => state.app;
 const mapDispatchToProps = dispatch => ({
-  view_load_score: (scoreObj, levelObj) =>
-    dispatch(actions.view_load_score(scoreObj, levelObj)),
-  view_reset_scoreModal: () => {
-    dispatch(actions.view_reset_scoreModal());
+  viewScreen_load_score: (scoreObj, levelObj) =>
+    dispatch(actions.viewScreen_load_score(scoreObj, levelObj, false)),
+  viewScreen_reset_scoreModal: () => {
+    dispatch(actions.viewScreen_reset_scoreModal());
   },
+  viewScreen_download_score: (scoreObj, levelObj) =>
+    dispatch(actions.viewScreen_load_score(scoreObj, levelObj, true)),
 });
 
 class LinksScreen extends React.Component {
@@ -44,6 +46,7 @@ class LinksScreen extends React.Component {
 
   render() {
     console.log('ScoreScreen.props', this.props);
+
     return (
       <ScrollView>
         <ImageBackground
@@ -58,7 +61,6 @@ class LinksScreen extends React.Component {
             }
           />
         </ImageBackground>
-
         {this.props.view.scoreView.selectedScore !== undefined && (
           <Row>
             <View styleName="vertical">
@@ -76,7 +78,7 @@ class LinksScreen extends React.Component {
                 <View styleName="horizontal">
                   <Button
                     onPress={() =>
-                      this.props.view_load_score(
+                      this.props.viewScreen_load_score(
                         this.props.view.scoreView.selectedScore,
                         data_levels[i]
                       )
@@ -92,6 +94,12 @@ class LinksScreen extends React.Component {
                   <Button
                     styleName={
                       'confirmation secondary' + (e != null ? '' : ' muted')
+                    }
+                    onPress={() =>
+                      this.props.viewScreen_download_score(
+                        this.props.view.scoreView.selectedScore,
+                        data_levels[i]
+                      )
                     }
                     style={Styles.CSS.buttonSecondary}>
                     <Text style={Styles.CSS.buttonText}>
@@ -115,7 +123,7 @@ class LinksScreen extends React.Component {
         <Modal
           visible={this.props.view.scoreView.selectedScoreLink !== undefined}
           transparent={true}
-          onRequestClose={() => this.props.view_reset_scoreModal()}>
+          onRequestClose={() => this.props.viewScreen_reset_scoreModal()}>
           <ImageViewer
             imageUrls={[
               {

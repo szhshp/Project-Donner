@@ -36,10 +36,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   searchScreen_select_category: scoreObj =>
     dispatch(actions.searchScreen_select_category(scoreObj)),
-  searchScreen_reset_category: () => dispatch(actions.searchScreen_reset_category()),
+  searchScreen_reset_category: () =>
+    dispatch(actions.searchScreen_reset_category()),
   searchScreen_select_score: scoreObj =>
     dispatch(actions.searchScreen_select_score(scoreObj)),
-  searchScreen_toggle_searchBar: () => dispatch(actions.searchScreen_toggle_searchBar()),
+  searchScreen_toggle_searchBar: () =>
+    dispatch(actions.searchScreen_toggle_searchBar()),
   searchScreen_searchBar_onChange: keyword =>
     dispatch(actions.searchScreen_searchBar_onChange(keyword)),
 });
@@ -122,7 +124,9 @@ class SearchScreen extends React.Component {
               clearButtonMode={true}
               placeholder={'请输入关键字...'}
               value={this.props.search.searchBar.keyword}
-              onChangeText={text => this.props.searchScreen_searchBar_onChange(text)}
+              onChangeText={text =>
+                this.props.searchScreen_searchBar_onChange(text)
+              }
             />
           </View>
         )}
@@ -169,8 +173,8 @@ class SearchScreen extends React.Component {
           <ListView
             data={data_categories.map(e => ({
               ...e,
-              r: this.props.search.searchBar
-                .keyword /* tricky solution, add redundant key 'r' to make sure list view are refreshed */,
+              /* tricky solution, add redundant key 'r' to make sure list view are refreshed */
+              r: this.props.search.searchBar.keyword,
             }))}
             renderRow={c => {
               let scoreCategory = data_scores.scores.find(e => {

@@ -77,13 +77,22 @@ const reducer = (state = defaultState, actionData) => {
     }
     case 'VIEWSCREEN_DOWNLOAD_SCORE_FINISHED': {
       rv.view.scoreView.status = 'succeed';
-      rv.view.scoreView.message = '下载完成';
-      // TODO: find duplicated
-      rv.settings.savedScore.arrScore.push({
-        scoreObj: actionData.scoreObj,
-        levelObj: actionData.levelObj,
-        relativePath: actionData.relativePath,
-      });
+
+      // add to saved score state if not added already
+      if (
+        rv.settings.savedScore.arrScore.filter(
+          e => e.relativePath == actionData.relativePath
+        ).length == 0
+      ) {
+        rv.settings.savedScore.arrScore.push({
+          scoreObj: actionData.scoreObj,
+          levelObj: actionData.levelObj,
+          relativePath: actionData.relativePath,
+        });
+        rv.view.scoreView.message = '下载完成';
+      } else {
+        rv.view.scoreView.message = '此谱面已存在';
+      }
       return rv;
     }
     case 'VIEWSCREEN_LOAD_SCORE_FAILED': {

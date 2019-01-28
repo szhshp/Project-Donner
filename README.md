@@ -15,10 +15,13 @@
 - [ ] Log saved score file lists to console
 
 ### Feature
-- [ ] Exclude duplicated downloaded scores
+
+- [ ] Fetch for latest version
 - [ ] Save event in modal
+- [ ] Split searchscreen into 2 views (search score & saved score)
 - [ ] Load downloaded score
 - [ ] Display the saved score in search screen and score screen
+- [x] Exclude duplicated downloaded scores
 - [x] Move 'savedScore' validation inside function `read_setting` 
 - [x] Score download
 - [x] Version history
@@ -76,9 +79,17 @@ Format:
 {
   settings: {   /* application level settings */
     autoSave: [true|false], /* autoSave when score loaded? */
-  },
-  savedScore: {
-    arrScoreFile: [Array<scoreObj>], /* saved score file name array */
+    savedScore: {
+      arrScore: [
+        /*
+        {
+          relativePath: [String]
+          scoreObj: {scoreObj}
+          levelObj: {levelObj}
+        }  
+        */
+      ], /* saved score file name array */
+    },
   },
   search: {
     searchBar: { 

@@ -45,6 +45,13 @@ const data_version = {
         'Fixed: Error when toggle autoSave from on to off',
       ],
     },
+    {
+      date: '2019-01-28',
+      version: 'V0.31',
+      detail: [
+        'Fixed: Exclude duplicated downloaded scores',
+      ],
+    },
   ],
 };
 

@@ -29,7 +29,7 @@ const CSS = {
     backgroundColor: mainColor,
   },
   buttonSecondary: {
-    backgroundColor: 'red',
+    backgroundColor: 'grey',
   },
   buttonText: {
     fontSize: 16,

@@ -42,7 +42,6 @@ export const fetch_score = (
   levelObj,
   downloadOnly
 ) => (dispatch, getState) => {
-
   /* fetch score event started*/
   dispatch({
     type: 'VIEWSCREEN_LOAD_SCORE_STARTED',
@@ -196,7 +195,6 @@ export const setting_write = () => (dispatch, getState) => {
  * @return  {[thunk]} file IO to read config file
  */
 export const setting_read = () => (dispatch, getState) => {
-
   // TODO: dispatch setting read start action?
   /*dispatch({
     type: 'SETTING_READ_STARTED',
@@ -240,3 +238,12 @@ export const setting_read = () => (dispatch, getState) => {
       });
     });
 };
+
+/*
+load_savedScore
+ */
+
+export const load_savedScore = i => ({
+  type: 'VIEWSCREEN_LOAD_SAVEDSCORE',
+  index: i,
+});

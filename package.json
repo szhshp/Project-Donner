@@ -12,6 +12,7 @@
     "@expo/samples": "2.1.1",
     "@shoutem/ui": "0.23.6",
     "cheerio": "1.0.0-rc.2",
+    "deep-equal": "1.0.1",
     "deepmerge": "3.1.0",
     "encoding-japanese": "1.0.29",
     "expo-asset": "~1.1.0",

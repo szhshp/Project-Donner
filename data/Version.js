@@ -48,8 +48,16 @@ const data_version = {
     {
       date: '2019-01-28',
       version: 'V0.31',
+      detail: ['Fixed: Exclude duplicated downloaded scores'],
+    },
+    {
+      date: '2019-01-30',
+      version: 'V0.4',
       detail: [
-        'Fixed: Exclude duplicated downloaded scores',
+        'Updated: Saved score screen',
+        'Updated: Save event in modal',
+        'Updated: Load downloaded score',
+        'Updated: Display saved score in search screen and score screen',
       ],
     },
   ],

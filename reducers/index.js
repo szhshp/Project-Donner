@@ -1,4 +1,5 @@
 import merge from 'deepmerge';
+import { FileSystem } from 'expo';
 
 const defaultState = {
   settings: {
@@ -104,6 +105,14 @@ const reducer = (state = defaultState, actionData) => {
       rv.view.scoreView.message = undefined;
       rv.view.scoreView.status = undefined;
       rv.view.scoreView.selectedScoreLink = undefined;
+      return rv;
+    }
+    case 'VIEWSCREEN_LOAD_SAVEDSCORE': {
+      rv.view.scoreView.status = 'succeed';
+      rv.view.scoreView.selectedScore = rv.settings.savedScore.arrScore[actionData.index].scoreObj;
+      rv.view.scoreView.selectedScoreLink = `${FileSystem.documentDirectory}${
+        rv.settings.savedScore.arrScore[actionData.index].relativePath
+      }`;
       return rv;
     }
     case 'SETTING_READ_FINISHED': {

@@ -80,7 +80,7 @@ class HomeScreen extends React.Component {
         <Row style={Styles.CSS.headerTextPaddingTop}>
           <Heading>更新历史</Heading>
           {data_version.updateHistory
-            .slice(-2)
+            .slice(-3)
             .map(e => [
               <Caption style={Styles.CSS.highLightText}>{e.version}</Caption>,
               e.detail.map(m => <Text>{m}</Text>),

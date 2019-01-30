@@ -154,7 +154,7 @@ class SearchScreen extends React.Component {
                       <Text style={{ color: Styles.Colors.defaultText }}>
                         {s.title}
                         {'\n'}
-                        难度:{' '}
+                        {'难度: '}
                         {s.levels.map(e => (e == null ? '-' : e)).join('/')}
                         {'  '}
                         BPM:
@@ -162,6 +162,8 @@ class SearchScreen extends React.Component {
                       </Text>
                       <Ionicons name="md-arrow-round-forward" size={16} />
                     </Row>
+                    <Divider styleName="line" />
+                    <Divider styleName="line" />
                     <Divider styleName="line" />
                   </TouchableOpacity>
                 )

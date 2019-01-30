@@ -21,6 +21,7 @@ import {
 
 import ImageViewer from 'react-native-image-zoom-viewer';
 const Cheerio = require('cheerio');
+const DeepEqual = require('deep-equal');
 
 import Styles from '../constants/Styles';
 import data_scores from '../data/Scores';
@@ -61,6 +62,12 @@ class LinksScreen extends React.Component {
             }
           />
         </ImageBackground>
+        {this.props.view.scoreView.message !== undefined &&
+          this.props.view.scoreView.message.length > 0 && (
+            <Row>
+              <Text>{this.props.view.scoreView.message}</Text>
+            </Row>
+          )}
         {this.props.view.scoreView.selectedScore !== undefined && (
           <Row>
             <View styleName="vertical">
@@ -74,50 +81,61 @@ class LinksScreen extends React.Component {
                   BPM: {this.props.view.scoreView.selectedScore.BPM}
                 </Caption>
               </View>
-              {this.props.view.scoreView.selectedScore.levels.map((e, i) => (
-                <View styleName="horizontal">
-                  <Button
-                    onPress={() =>
-                      this.props.viewScreen_load_score(
-                        this.props.view.scoreView.selectedScore,
-                        data_levels[i]
-                      )
-                    }
-                    styleName={
-                      'confirmation secondary' + (e != null ? '' : ' muted')
-                    }
-                    style={Styles.CSS.buttonPrimary}>
-                    <Text style={Styles.CSS.buttonText}>
-                      {data_levels[i].transTitle}: {e != null ? e + '★' : '-'}
-                    </Text>
-                  </Button>
-                  <Button
-                    styleName={
-                      'confirmation secondary' + (e != null ? '' : ' muted')
-                    }
-                    onPress={() =>
-                      this.props.viewScreen_download_score(
-                        this.props.view.scoreView.selectedScore,
-                        data_levels[i]
-                      )
-                    }
-                    style={Styles.CSS.buttonSecondary}>
-                    <Text style={Styles.CSS.buttonText}>
-                      下载
-                      <Ionicons name="md-download" size={16} />
-                    </Text>
-                  </Button>
-                </View>
-              ))}
+              {this.props.view.scoreView.selectedScore.levels.map((e, i) => {
+                let indexInSavedScore = this.props.settings.savedScore.arrScore.findIndex(
+                  savedScore => {
+                    return (
+                      DeepEqual(
+                        savedScore.scoreObj,
+                        this.props.view.scoreView.selectedScore
+                      ) && DeepEqual(savedScore.levelObj, data_levels[i])
+                    );
+                  }
+                );
+                let isSavedScore = indexInSavedScore > -1 ? true : false;
+
+                return (
+                  <View styleName="horizontal">
+                    <Button
+                      onPress={() =>
+                        this.props.viewScreen_load_score(
+                          this.props.view.scoreView.selectedScore,
+                          data_levels[i]
+                        )
+                      }
+                      styleName={
+                        'confirmation secondary' + (e != null ? '' : ' muted')
+                      }
+                      style={Styles.CSS.buttonPrimary}>
+                      <Text style={Styles.CSS.buttonText}>
+                        {data_levels[i].transTitle}: {e != null ? e + '★' : '-'}
+                      </Text>
+                    </Button>
+
+                    <Button
+                      styleName={
+                        'confirmation secondary' + (e != null ? '' : ' muted')
+                      }
+                      onPress={() =>
+                        this.props.viewScreen_download_score(
+                          this.props.view.scoreView.selectedScore,
+                          data_levels[i]
+                        )
+                      }
+                      style={Styles.CSS.buttonSecondary}>
+                      <Text style={Styles.CSS.buttonText}>
+                        {isSavedScore
+                          ? '已下载'
+                          : ['下载', <Ionicons name="md-download" size={16} />]}
+                      </Text>
+                    </Button>
+                  </View>
+                );
+              })}
             </View>
           </Row>
         )}
-        {this.props.view.scoreView.message !== undefined &&
-          this.props.view.scoreView.message.length > 0 && (
-            <Row>
-              <Text>{this.props.view.scoreView.message}</Text>
-            </Row>
-          )}
+
         {this.props.view.scoreView.status == 'started' && <Spinner />}
 
         <Modal

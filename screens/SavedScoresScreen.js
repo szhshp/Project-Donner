@@ -32,9 +32,7 @@ import data_version from '../data/Version';
 
 const mapStateToProps = state => state.app;
 const mapDispatchToProps = dispatch => ({
-  setting_toggleAutoSave: v => {
-    dispatch(actions.setting_toggleAutoSave(v));
-  },
+  load_savedScore: index => dispatch(actions.load_savedScore(index)),
 });
 
 class SavedScoresScreen extends React.Component {
@@ -65,33 +63,39 @@ class SavedScoresScreen extends React.Component {
           </Text>
         </Row>
         <Divider styleName="line" />
+        <Divider styleName="line" />
+        <Divider styleName="line" />
 
         {this.props.settings.savedScore.arrScore.length == 0 && (
           <Button
             onPress={() => this.props.navigation.navigate('Search')}
             styleName={'confirmation secondary'}
             style={Styles.CSS.buttonPrimary}>
-            <Text style={Styles.CSS.buttonText}>点击这儿开始搜索谱面</Text>
+            <Text style={Styles.CSS.buttonText}>点击这儿开始搜索谱面咚!</Text>
           </Button>
         )}
         {this.props.settings.savedScore.arrScore.length > 0 && (
           <ListView
             data={this.props.settings.savedScore.arrScore}
-            renderRow={s => {
+            renderRow={(s, secID, rowIndex) => {
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    this.props.searchScreen_select_score(s);
+                    this.props.load_savedScore(rowIndex);
                     this.props.navigation.navigate('Score');
                   }}>
                   <Row styleName="small">
                     <Text style={{ color: Styles.Colors.defaultText }}>
                       {s.scoreObj.title}
-                      
-                      {s.scoreObj.levels[s.levelObj.levelID]+'★'}
+                      {'\n'}
+                      {s.scoreObj.levels[s.levelObj.levelID] + '★'}
+                      {' / '}
+                      {s.levelObj.transTitle}
                     </Text>
                     <Ionicons name="md-arrow-round-forward" size={16} />
                   </Row>
+                  <Divider styleName="line" />
+                  <Divider styleName="line" />
                   <Divider styleName="line" />
                 </TouchableOpacity>
               );

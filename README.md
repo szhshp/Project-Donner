@@ -16,12 +16,13 @@
 
 ### Feature
 
-- [ ] Split searchscreen into 2 views (search score & saved score)
+- [ ] Load saved score in search screen
 - [ ] Fetch for latest version
-- [ ] Save event in modal
-- [ ] Load downloaded score
+- [x] Load downloaded score
 - [ ] Handle auto download feature
-- [ ] Display the saved score in search screen and score screen
+- [x] Display the saved score in search screen and score screen
+- [x] Save event in modal
+- [x] Split searchscreen into 2 views (search score & saved score)
 - [x] Exclude duplicated downloaded scores
 - [x] Move 'savedScore' validation inside function `read_setting` 
 - [x] Score download

@@ -1,21 +1,21 @@
 const data_levels = [
   {
-    levelID: 1,
+    levelID: 0,
     title: 'かんたん',
     transTitle: '梅',
   },
   {
-    levelID: 2,
+    levelID: 1,
     title: 'ふつう',
     transTitle: '竹',
   },
   {
-    levelID: 3,
+    levelID: 2,
     title: 'むずかしい',
     transTitle: '松',
   },
   {
-    levelID: 4,
+    levelID: 3,
     title: 'おに',
     transTitle: '鬼',
   },

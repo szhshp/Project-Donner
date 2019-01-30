@@ -1,0 +1,109 @@
+import React from 'react';
+import { ExpoConfigView } from '@expo/samples';
+import { connect } from 'react-redux';
+import {
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Switch,
+  Image,
+} from 'react-native';
+import {
+  Text,
+  View,
+  Screen,
+  ListView,
+  TextInput,
+  Title,
+  Divider,
+  Icon,
+  Button,
+  Row,
+  ImageBackground,
+  NavigationBar,
+} from '@shoutem/ui';
+import { Ionicons } from '@expo/vector-icons';
+import { FileSystem, WebBrowser } from 'expo';
+
+import * as actions from '../actions';
+import Styles from '../constants/Styles';
+
+import data_version from '../data/Version';
+
+const mapStateToProps = state => state.app;
+const mapDispatchToProps = dispatch => ({
+  setting_toggleAutoSave: v => {
+    dispatch(actions.setting_toggleAutoSave(v));
+  },
+});
+
+class SavedScoresScreen extends React.Component {
+  static navigationOptions = {
+    title: null,
+    header: null,
+  };
+
+  render() {
+    console.log('Setting.this.props', this.props);
+    return [
+      <ImageBackground
+        style={{
+          height: 65,
+          backgroundColor: Styles.Colors.backgroundColor,
+        }}>
+        <NavigationBar
+          styleName="clear"
+          centerComponent={
+            <Title style={Styles.CSS.headerTextPaddingTop}>已下载谱面</Title>
+          }
+        />
+      </ImageBackground>,
+      <ScrollView style={{ flex: 1 }}>
+        <Row>
+          <Text>
+            已保存的谱面计数: {this.props.settings.savedScore.arrScore.length}
+          </Text>
+        </Row>
+        <Divider styleName="line" />
+
+        {this.props.settings.savedScore.arrScore.length == 0 && (
+          <Button
+            onPress={() => this.props.navigation.navigate('Search')}
+            styleName={'confirmation secondary'}
+            style={Styles.CSS.buttonPrimary}>
+            <Text style={Styles.CSS.buttonText}>点击这儿开始搜索谱面</Text>
+          </Button>
+        )}
+        {this.props.settings.savedScore.arrScore.length > 0 && (
+          <ListView
+            data={this.props.settings.savedScore.arrScore}
+            renderRow={s => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.searchScreen_select_score(s);
+                    this.props.navigation.navigate('Score');
+                  }}>
+                  <Row styleName="small">
+                    <Text style={{ color: Styles.Colors.defaultText }}>
+                      {s.scoreObj.title}
+                      
+                      {s.scoreObj.levels[s.levelObj.levelID]+'★'}
+                    </Text>
+                    <Ionicons name="md-arrow-round-forward" size={16} />
+                  </Row>
+                  <Divider styleName="line" />
+                </TouchableOpacity>
+              );
+            }}
+          />
+        )}
+      </ScrollView>,
+    ];
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SavedScoresScreen);

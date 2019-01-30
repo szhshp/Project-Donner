@@ -99,7 +99,7 @@ class SettingsScreen extends React.Component {
           '给作者留言',
           '给作者买咖啡',
           '给作者买鼓棒',
-          '送作者一万块钱',
+          <Text>送作者 <Text style={{textDecorationLine:'line-through'}}>一万</Text> 一百万人民币</Text>,
           '给作者介绍对象',
           '送作者一架大力鼓',
         ].map(e => (

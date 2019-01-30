@@ -17,8 +17,10 @@ import Styles from '../constants/Styles';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import ScoresScreen from '../screens/ScoresScreen';
+import SavedScoresScreen from '../screens/SavedScoresScreen';
 import SearchScreen from '../screens/SearchScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+
 import Reducers from '../reducers';
 
 const HomeStack = createStackNavigator({
@@ -67,6 +69,20 @@ ScoresStack.navigationOptions = {
   ),
 };
 
+const SavedScoresStack = createStackNavigator({
+  SavedScores: SavedScoresScreen,
+});
+
+SavedScoresStack.navigationOptions = {
+  tabBarLabel: 'Saved',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'}
+    />
+  ),
+};
+
 const SettingsStack = createStackNavigator({
   Settings: SettingsScreen,
 });
@@ -86,6 +102,7 @@ const AppNavigator = createBottomTabNavigator(
     HomeStack,
     SearchStack,
     ScoresStack,
+    SavedScoresStack,
     SettingsStack,
   },
   {

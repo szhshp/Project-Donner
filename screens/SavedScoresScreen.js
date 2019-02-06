@@ -46,7 +46,7 @@ class SavedScoresScreen extends React.Component {
     return [
       <ImageBackground
         style={{
-          height: 65,
+          height: Styles.DATA.navigationBarHeight,
           backgroundColor: Styles.Colors.backgroundColor,
         }}>
         <NavigationBar

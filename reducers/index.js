@@ -28,7 +28,7 @@ const defaultState = {
     },
   },
   home: {
-    news: [],
+    releases: [],
   },
 };
 
@@ -109,7 +109,8 @@ const reducer = (state = defaultState, actionData) => {
     }
     case 'VIEWSCREEN_LOAD_SAVEDSCORE': {
       rv.view.scoreView.status = 'succeed';
-      rv.view.scoreView.selectedScore = rv.settings.savedScore.arrScore[actionData.index].scoreObj;
+      rv.view.scoreView.selectedScore =
+        rv.settings.savedScore.arrScore[actionData.index].scoreObj;
       rv.view.scoreView.selectedScoreLink = `${FileSystem.documentDirectory}${
         rv.settings.savedScore.arrScore[actionData.index].relativePath
       }`;
@@ -126,6 +127,13 @@ const reducer = (state = defaultState, actionData) => {
     }*/
     case 'SETTING_CHANGE_AUTOSAVE': {
       rv.settings.autoSave = actionData.autoSave;
+      return rv;
+    }
+    case 'SETTING_LOAD_LATESTVERSION': {
+      if (actionData.latest_version_info) {
+        rv.home.releases = actionData.latest_version_info;
+      }
+
       return rv;
     }
     default: {

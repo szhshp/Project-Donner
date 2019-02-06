@@ -239,11 +239,31 @@ export const setting_read = () => (dispatch, getState) => {
     });
 };
 
-/*
-load_savedScore
+/**
+ * [action creator - global, load saved score from ]
+ * @param  {[int]} i: the saved score index
  */
 
 export const load_savedScore = i => ({
   type: 'VIEWSCREEN_LOAD_SAVEDSCORE',
   index: i,
 });
+
+/**
+ * [action creator - global, fetch for latest version ]
+ * @param  {[thunk]} fetch in return
+ */
+
+export const load_latest_version = () => (dispatch, getState) => {
+  return fetch('https://api.github.com/repos/szhielelp/Project-Donner/releases')
+    .then(res => res.json())
+    .then(res => {
+      dispatch({
+        type: 'SETTING_LOAD_LATESTVERSION',
+        latest_version_info: res,
+      });
+    })
+    .catch(e => {
+      console.log('load_latest_version: Failed');
+    });
+};

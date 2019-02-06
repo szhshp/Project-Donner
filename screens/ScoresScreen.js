@@ -52,22 +52,33 @@ class LinksScreen extends React.Component {
       <ScrollView>
         <ImageBackground
           style={{
-            height: 65,
+            height: Styles.DATA.navigationBarHeight,
             backgroundColor: Styles.Colors.backgroundColor,
           }}>
           <NavigationBar
             styleName="clear"
+            leftComponent={
+              /* only show back button when selected category */
+              this.props.search.selectedCategory !== undefined && (
+                <Button styleName="clear">
+                  <Ionicons
+                    name="md-arrow-back"
+                    size={24}
+                    onPress={() => this.props.navigation.navigate('Search')}
+                    style={[
+                      Styles.CSS.textColorWithinBackground,
+                      Styles.CSS.headerTextPaddingTop,
+                    ]}
+                  />
+                </Button>
+              )
+            }
             centerComponent={
               <Title style={Styles.CSS.headerTextPaddingTop}>查看谱面</Title>
             }
           />
         </ImageBackground>
-        {this.props.view.scoreView.message !== undefined &&
-          this.props.view.scoreView.message.length > 0 && (
-            <Row>
-              <Text>{this.props.view.scoreView.message}</Text>
-            </Row>
-          )}
+
         {this.props.view.scoreView.selectedScore !== undefined && (
           <Row>
             <View styleName="vertical">
@@ -122,7 +133,11 @@ class LinksScreen extends React.Component {
                           data_levels[i]
                         )
                       }
-                      style={Styles.CSS.buttonSecondary}>
+                      style={
+                        isSavedScore
+                          ? Styles.CSS.buttonSuccess
+                          : Styles.CSS.buttonSecondary
+                      }>
                       <Text style={Styles.CSS.buttonText}>
                         {isSavedScore
                           ? '已下载'
@@ -135,6 +150,12 @@ class LinksScreen extends React.Component {
             </View>
           </Row>
         )}
+        {this.props.view.scoreView.message !== undefined &&
+          this.props.view.scoreView.message.length > 0 && (
+            <Row>
+              <Text>{this.props.view.scoreView.message}</Text>
+            </Row>
+          )}
 
         {this.props.view.scoreView.status == 'started' && <Spinner />}
 

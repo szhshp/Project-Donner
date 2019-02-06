@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
   Button,
+  Modal,
   Dimensions,
 } from 'react-native';
 import {
@@ -20,7 +21,7 @@ import {
 } from '@shoutem/ui';
 import { connect } from 'react-redux';
 
-import { FileSystem } from 'expo';
+import { FileSystem, WebBrowser } from 'expo';
 import Styles from '../constants/Styles';
 
 import { MonoText } from '../components/StyledText';
@@ -34,6 +35,9 @@ const mapDispatchToProps = dispatch => ({
   setting_read: () => {
     dispatch(actions.setting_read());
   },
+  load_latest_version: () => {
+    dispatch(actions.load_latest_version());
+  },
 });
 
 class HomeScreen extends React.Component {
@@ -43,6 +47,7 @@ class HomeScreen extends React.Component {
 
   componentDidMount() {
     this.props.setting_read();
+    this.props.load_latest_version();
   }
 
   render() {
@@ -60,11 +65,25 @@ class HomeScreen extends React.Component {
         <Row>
           <Heading>Donner Helper</Heading>
         </Row>
-
         <Row>
           <Caption style={Styles.CSS.highLightText}>
             当前版本: {data_version.updateHistory.slice(-1)[0].version}
           </Caption>
+
+          {(this.props.home.releases.length > 0) &&
+            (this.props.home.releases[0].tag_name !== undefined) &&
+            (this.props.home.releases[0].tag_name >
+              data_version.updateHistory.slice(-1)[0].version) && [
+              <Caption style={Styles.CSS.highLightText}>
+                最新版本: {this.props.home.releases[0].tag_name}
+              </Caption>,
+              <TouchableOpacity
+                onPress={() => {
+                  WebBrowser.openBrowserAsync(this.props.home.releases[0].url);
+                }}>
+                <Text style={{ color: 'red' }}> 点击更新</Text>
+              </TouchableOpacity>,
+            ]}
           <Caption style={Styles.CSS.highLightText}>
             谱面数据: {data_version.scoreData.updateDate}
           </Caption>
@@ -83,7 +102,9 @@ class HomeScreen extends React.Component {
             .slice(-3)
             .map(e => [
               <Caption style={Styles.CSS.highLightText}>{e.version}</Caption>,
-              e.detail.map(m => <Text>{m}</Text>),
+              e.detail.map(m => (
+                <Text style={{ textAlign: 'center' }}>{m}</Text>
+              )),
             ])}
         </Row>
       </Screen>

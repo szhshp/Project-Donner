@@ -18,9 +18,14 @@ const Colors = {
   noticeText: '#fff',
 };
 
+const DATA = {
+  navigationBarHeight: 80,
+};
+
 const CSS = {
   headerTextPaddingTop: {
-    paddingTop: 15,
+    paddingTop: 25,
+    marginTop: 20,
   },
   textColorWithinBackground: {
     color: Colors.textColorWithinBackground,
@@ -30,6 +35,9 @@ const CSS = {
   },
   buttonSecondary: {
     backgroundColor: 'grey',
+  },
+  buttonSuccess: {
+    backgroundColor: '#86aa40',
   },
   buttonText: {
     fontSize: 16,
@@ -43,6 +51,7 @@ const CSS = {
   },
   highLightText: {
     fontSize: 12,
+    textAlign: 'center',
     backgroundColor: 'rgba(0,0,0,0.15)',
     paddingLeft: 3,
     paddingRight: 3,
@@ -91,4 +100,4 @@ const CSS = {
   },
 };
 
-export default { Colors, CSS };
+export default { Colors, CSS, DATA };

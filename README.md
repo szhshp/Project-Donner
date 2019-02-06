@@ -16,10 +16,10 @@
 
 ### Feature
 
-- [ ] Load saved score in search screen
-- [ ] Fetch for latest version
-- [x] Load downloaded score
+- [x] Fetch for latest version
 - [ ] Handle auto download feature
+- [x] Load downloaded score
+- [x] Load saved score in search screen
 - [x] Display the saved score in search screen and score screen
 - [x] Save event in modal
 - [x] Split searchscreen into 2 views (search score & saved score)
@@ -31,7 +31,11 @@
 - [x] Setting config file read/write
 - [x] Navigation style
 - [x] Score modal back event
- 
+
+### UI
+- [x] Update history text styles
+
+
 ## Technology Stacks
  
 - React Native
@@ -113,7 +117,7 @@ Format:
     }
   },
   home: {
-    news: [Array<String>],
+    releases: [], /* releases array from github */
   },
 }
 ```

@@ -60,6 +60,19 @@ const data_version = {
         'Updated: Display saved score in search screen and score screen',
       ],
     },
+    {
+      date: '2019-02-01',
+      version: 'V0.41',
+      detail: ['Updated: Styles'],
+    },
+    {
+      date: '2019-02-06',
+      version: 'V0.42',
+      detail: [
+        'Updated: History text styles',
+        'Updated: Fetch for latest version',
+      ],
+    },
   ],
 };
 

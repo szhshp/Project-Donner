@@ -47,7 +47,7 @@ class SettingsScreen extends React.Component {
     return [
       <ImageBackground
         style={{
-          height: 65,
+          height: Styles.DATA.navigationBarHeight,
           backgroundColor: Styles.Colors.backgroundColor,
         }}>
         <NavigationBar
@@ -81,6 +81,22 @@ class SettingsScreen extends React.Component {
           <Text>当前版本</Text>
           <Text>{data_version.updateHistory.slice(-1)[0].version}</Text>
         </TouchableOpacity>
+        {this.props.home.releases.length > 0 &&
+          this.props.home.releases[0].tag_name !== undefined &&
+          this.props.home.releases[0].tag_name >
+            data_version.updateHistory.slice(-1)[0].version && [
+            <TouchableOpacity style={Styles.CSS.rowViewContainer}>
+              <Text>最新版本</Text>
+              <Text>{this.props.home.releases[0].tag_name}</Text>
+            </TouchableOpacity>,
+            <TouchableOpacity
+              onPress={() => {
+                WebBrowser.openBrowserAsync(this.props.home.releases[0].url);
+              }}>
+              <Text style={{ color: 'red' }}> 点击更新</Text>
+            </TouchableOpacity>,
+          ]}
+
         <TouchableOpacity style={Styles.CSS.rowViewContainer}>
           <Text>
             作者: szhshp
@@ -92,14 +108,17 @@ class SettingsScreen extends React.Component {
             style={Styles.CSS.logoImageSmall}
           />
         </TouchableOpacity>
-
         {[
           '夸奖作者',
           '感谢作者',
           '给作者留言',
           '给作者买咖啡',
           '给作者买鼓棒',
-          <Text>送作者 <Text style={{textDecorationLine:'line-through'}}>一万</Text> 一百万人民币</Text>,
+          <Text>
+            送作者{' '}
+            <Text style={{ textDecorationLine: 'line-through' }}>一万</Text>{' '}
+            一百万人民币
+          </Text>,
           '给作者介绍对象',
           '送作者一架大力鼓',
         ].map(e => (

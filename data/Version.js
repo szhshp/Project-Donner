@@ -73,6 +73,14 @@ const data_version = {
         'Updated: Fetch for latest version',
       ],
     },
+     {
+      date: '2019-02-10',
+      version: 'V0.5',
+      detail: [
+        'Updated: Handle auto download feature',
+        'Updated: Project Demo Site',
+      ],
+    },
   ],
 };
 

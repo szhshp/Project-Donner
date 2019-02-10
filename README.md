@@ -13,11 +13,12 @@
 ### Dev
 
 - [ ] Log saved score file lists to console
+- [x] Demo Site
 
 ### Feature
 
+- [x] Handle auto download feature
 - [x] Fetch for latest version
-- [ ] Handle auto download feature
 - [x] Load downloaded score
 - [x] Load saved score in search screen
 - [x] Display the saved score in search screen and score screen
@@ -31,6 +32,11 @@
 - [x] Setting config file read/write
 - [x] Navigation style
 - [x] Score modal back event
+
+
+### Bug
+
+- [ ] Do not redownload sore if download in score screen
 
 ### UI
 - [x] Update history text styles

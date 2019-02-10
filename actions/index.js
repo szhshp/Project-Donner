@@ -57,8 +57,15 @@ export const fetch_score = (
       return $('img[title$=".png"]').attr('src');
     })
     .then(selectedScoreLink => {
-      if (downloadOnly) {
-        /* download */
+      if (getState().app.settings.autoSave) {
+        /* download and show in modal */
+        dispatch(download_score(selectedScoreLink, scoreObj, levelObj));
+        dispatch({
+          type: 'VIEWSCREEN_LOAD_SCORE_FINISHED',
+          selectedScoreLink,
+        });
+      } else if (downloadOnly) {
+        /* download only */
         dispatch(download_score(selectedScoreLink, scoreObj, levelObj));
       } else {
         /* show in modal */
@@ -187,7 +194,7 @@ export const setting_write = () => (dispatch, getState) => {
   FileSystem.writeAsStringAsync(
     `${FileSystem.documentDirectory}setting.json`,
     JSON.stringify(getState().app.settings)
-  );
+  ).catch(error => console.log(error));
 };
 
 /**

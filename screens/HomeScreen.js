@@ -70,10 +70,10 @@ class HomeScreen extends React.Component {
             当前版本: {data_version.updateHistory.slice(-1)[0].version}
           </Caption>
 
-          {(this.props.home.releases.length > 0) &&
-            (this.props.home.releases[0].tag_name !== undefined) &&
-            (this.props.home.releases[0].tag_name >
-              data_version.updateHistory.slice(-1)[0].version) && [
+          {this.props.home.releases.length > 0 &&
+            this.props.home.releases[0].tag_name !== undefined &&
+            this.props.home.releases[0].tag_name >
+              data_version.updateHistory.slice(-1)[0].version && [
               <Caption style={Styles.CSS.highLightText}>
                 最新版本: {this.props.home.releases[0].tag_name}
               </Caption>,
@@ -112,6 +112,7 @@ class HomeScreen extends React.Component {
   }
 
   _maybeRenderDevelopmentModeWarning() {
+
     if (__DEV__) {
       return (
         <Text style={Styles.CSS.developmentModeText}>

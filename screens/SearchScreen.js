@@ -22,7 +22,7 @@ import {
 import { connect } from 'react-redux';
 
 import Styles from '../constants/Styles';
-import data_scores from '../data/Scores';
+import data_scores from '../data/ScoresDev';
 import data_levels from '../data/Levels';
 import data_categories from '../data/Categories';
 import * as actions from '../actions';

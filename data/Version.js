@@ -86,6 +86,7 @@ const data_version = {
       version: 'V0.51',
       detail: [
         'Fixed: Critical compatibility bug',
+        'Updated: Application performance',
       ],
     },
   ],

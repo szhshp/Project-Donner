@@ -84,9 +84,9 @@ class HomeScreen extends React.Component {
                 <Text style={{ color: 'red' }}> 点击更新</Text>
               </TouchableOpacity>,
             ]}
-          <Caption style={Styles.CSS.highLightText}>
+          {/*<Caption style={Styles.CSS.highLightText}>
             谱面数据: {data_version.scoreData.updateDate}
-          </Caption>
+          </Caption>*/}
         </Row>
         <Row>
           <Text Styles={{ textAlign: 'center' }}>
@@ -112,11 +112,7 @@ class HomeScreen extends React.Component {
   }
 
   _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-      return <Text>--- Development Mode ---</Text>;
-    } else {
-      return <Text>--- Non-Development Mode ---</Text>;
-    }
+    return <Row><Text>--- {(!__DEV__)?'Non-':''}Development Mode ---</Text></Row>;
   }
 }
 

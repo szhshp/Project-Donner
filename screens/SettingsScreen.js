@@ -16,14 +16,12 @@ import {
   TextInput,
   Title,
   Divider,
-  Icon,
   Button,
   Row,
   ImageBackground,
   NavigationBar,
 } from '@shoutem/ui';
-import { Ionicons } from '@expo/vector-icons';
-import { FileSystem, WebBrowser } from 'expo';
+import { FileSystem, WebBrowser, Icon } from 'expo';
 
 import * as actions from '../actions';
 import Styles from '../constants/Styles';
@@ -60,7 +58,7 @@ class SettingsScreen extends React.Component {
       <ScrollView style={{ flex: 1 }}>
         <View style={Styles.CSS.sectionViewContainer}>
           <Text style={Styles.CSS.scetionText}>
-            功能 <Ionicons name="md-settings" size={18} />
+            功能 <Icon.Ionicons name="md-settings" size={18} />
           </Text>
         </View>
         <TouchableOpacity
@@ -74,7 +72,7 @@ class SettingsScreen extends React.Component {
         </TouchableOpacity>
         <View style={Styles.CSS.sectionViewContainer}>
           <Text style={Styles.CSS.scetionText}>
-            关于 <Ionicons name="md-person" size={18} />
+            关于 <Icon.Ionicons name="md-person" size={18} />
           </Text>
         </View>
         <TouchableOpacity style={Styles.CSS.rowViewContainer}>
@@ -128,7 +126,7 @@ class SettingsScreen extends React.Component {
               WebBrowser.openBrowserAsync('http://szhshp.org');
             }}>
             <Text>{e}</Text>
-            <Ionicons name="md-open" size={18} />
+            <Icon.Ionicons name="md-open" size={18} />
           </TouchableOpacity>
         ))}
       </ScrollView>,

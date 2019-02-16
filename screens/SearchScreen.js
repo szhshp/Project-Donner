@@ -5,8 +5,7 @@ import {
   TouchableOpacity,
   BackHandler,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { Asset } from 'expo';
+import { Icon, Asset } from 'expo';
 import {
   Text,
   View,
@@ -15,7 +14,6 @@ import {
   TextInput,
   Title,
   Divider,
-  Icon,
   Button,
   Row,
   ImageBackground,
@@ -86,7 +84,7 @@ class SearchScreen extends React.Component {
             /* only show back button when selected category */
             this.props.search.selectedCategory !== undefined && (
               <Button styleName="clear">
-                <Ionicons
+                <Icon.Ionicons
                   name="md-arrow-back"
                   size={24}
                   onPress={() => this.props.searchScreen_reset_category()}
@@ -103,7 +101,7 @@ class SearchScreen extends React.Component {
           }
           rightComponent={
             <Button styleName="clear">
-              <Ionicons
+              <Icon.Ionicons
                 name="md-search"
                 size={24}
                 onPress={() => this.props.searchScreen_toggle_searchBar()}
@@ -160,7 +158,7 @@ class SearchScreen extends React.Component {
                         BPM:
                         {s.BPM}
                       </Text>
-                      <Ionicons name="md-arrow-round-forward" size={16} />
+                      <Icon.Ionicons name="md-arrow-round-forward" size={16} />
                     </Row>
                     <Divider styleName="line" />
                     <Divider styleName="line" />
@@ -209,7 +207,7 @@ class SearchScreen extends React.Component {
                       <Text style={{ color: Styles.Colors.defaultText }}>
                         {scoreCategoryCount} 曲目
                       </Text>
-                      <Ionicons name="md-arrow-round-forward" size={16} />
+                      <Icon.Ionicons name="md-arrow-round-forward" size={16} />
                     </Row>
                   </TouchableOpacity>
                 )

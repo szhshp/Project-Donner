@@ -112,19 +112,10 @@ class HomeScreen extends React.Component {
   }
 
   _maybeRenderDevelopmentModeWarning() {
-
     if (__DEV__) {
-      return (
-        <Text style={Styles.CSS.developmentModeText}>
-          --- Development Mode ---
-        </Text>
-      );
+      return <Text>--- Development Mode ---</Text>;
     } else {
-      return (
-        <Text style={Styles.CSS.developmentModeText}>
-          --- Non-Development Mode ---
-        </Text>
-      );
+      return <Text>--- Non-Development Mode ---</Text>;
     }
   }
 }

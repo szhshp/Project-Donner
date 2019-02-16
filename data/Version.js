@@ -81,6 +81,13 @@ const data_version = {
         'Updated: Project Demo Site',
       ],
     },
+     {
+      date: '2019-02-16',
+      version: 'V0.51',
+      detail: [
+        'Fixed: Critical compatibility bug',
+      ],
+    },
   ],
 };
 

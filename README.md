@@ -36,7 +36,7 @@
 
 ### Bug
 
-- [ ] Do not redownload sore if download in score screen
+- [ ] Do not redownload sore if downloaded in score screen
 
 ### UI
 - [x] Update history text styles

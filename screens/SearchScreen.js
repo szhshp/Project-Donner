@@ -83,11 +83,13 @@ class SearchScreen extends React.Component {
           leftComponent={
             /* only show back button when selected category */
             this.props.search.selectedCategory !== undefined && (
-              <Button styleName="clear">
+              <Button 
+                styleName="clear"
+                onPress={() => this.props.searchScreen_reset_category()}
+              >
                 <Icon.Ionicons
                   name="md-arrow-back"
                   size={24}
-                  onPress={() => this.props.searchScreen_reset_category()}
                   style={[
                     Styles.CSS.textColorWithinBackground,
                     Styles.CSS.headerTextPaddingTop,
@@ -100,11 +102,13 @@ class SearchScreen extends React.Component {
             <Title style={Styles.CSS.headerTextPaddingTop}>搜索谱面</Title>
           }
           rightComponent={
-            <Button styleName="clear">
+            <Button 
+              styleName="clear"
+              onPress={() => this.props.searchScreen_toggle_searchBar()}
+            >
               <Icon.Ionicons
                 name="md-search"
                 size={24}
-                onPress={() => this.props.searchScreen_toggle_searchBar()}
                 style={[
                   Styles.CSS.textColorWithinBackground,
                   Styles.CSS.headerTextPaddingTop,

@@ -78,11 +78,12 @@ class SavedScoresScreen extends React.Component {
             renderRow={(s, secID, rowIndex) => {
               return (
                 <TouchableOpacity
+                  key={rowIndex}
                   onPress={() => {
                     this.props.load_savedScore(rowIndex);
                     this.props.navigation.navigate('Score');
                   }}>
-                  <Row styleName="small">
+                  <Row styleName="small" key={rowIndex}>
                     <Text style={{ color: Styles.Colors.defaultText }}>
                       {s.scoreObj.title}
                       {'\n'}

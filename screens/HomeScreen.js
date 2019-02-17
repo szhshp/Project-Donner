@@ -63,7 +63,7 @@ class HomeScreen extends React.Component {
         </Row>
 
         <Row>
-          <Heading>Donner Helper</Heading>
+          <Heading>Project Donner</Heading>
         </Row>
         <Row>
           <Caption style={Styles.CSS.highLightText}>
@@ -100,10 +100,10 @@ class HomeScreen extends React.Component {
           <Heading>更新历史</Heading>
           {data_version.updateHistory
             .slice(-3)
-            .map(e => [
-              <Caption style={Styles.CSS.highLightText}>{e.version}</Caption>,
-              e.detail.map(m => (
-                <Text style={{ textAlign: 'center', fontSize: 10 }}>{m}</Text>
+            .map((e,i) => [
+              <Caption key={i} style={Styles.CSS.highLightText}>{e.version}</Caption>,
+              e.detail.map((m,i) => (
+                <Text key={i} style={{ textAlign: 'center', fontSize: 10 }}>{m}</Text>
               )),
             ])}
         </Row>

@@ -113,14 +113,15 @@ class SettingsScreen extends React.Component {
           '给作者买咖啡',
           '给作者买鼓棒',
           <Text>
-            送作者{' '}
-            <Text style={{ textDecorationLine: 'line-through' }}>一万</Text>{' '}
+            送作者
+            <Text style={{ textDecorationLine: 'line-through' }}>一万</Text>
             一百万人民币
           </Text>,
           '给作者介绍对象',
           '送作者一架大力鼓',
-        ].map(e => (
+        ].map((e,i) => (
           <TouchableOpacity
+            key={i}
             style={Styles.CSS.rowViewContainer}
             onPress={() => {
               WebBrowser.openBrowserAsync('http://szhshp.org');

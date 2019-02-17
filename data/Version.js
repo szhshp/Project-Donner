@@ -75,7 +75,7 @@ const data_version = {
     },
      {
       date: '2019-02-10',
-      version: 'V0.5',
+      version: 'V0.43',
       detail: [
         'Updated: Handle auto download feature',
         'Updated: Project Demo Site',
@@ -83,7 +83,7 @@ const data_version = {
     },
     {
       date: '2019-02-16',
-      version: 'V0.51',
+      version: 'V0.44',
       detail: [
         'Fixed: Critical compatibility bug',
         'Updated: Application performance',
@@ -91,7 +91,14 @@ const data_version = {
     },
     {
       date: '2019-02-17',
-      version: 'V0.52',
+      version: 'V0.45',
+      detail: [
+        'Fixed: Prevent redownload sore if downloaded in score screen',
+      ],
+    },
+    {
+      date: '2019-02-17',
+      version: 'V0.5',
       detail: [
         'Fixed: Prevent redownload sore if downloaded in score screen',
       ],

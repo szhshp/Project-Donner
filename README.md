@@ -12,6 +12,7 @@
 
 ### Dev
 
+- [ ] Build V0.5 Prod version and public a release
 - [ ] Log saved score file lists to console
 - [x] Demo Site
 

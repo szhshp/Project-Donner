@@ -103,7 +103,7 @@ class HomeScreen extends React.Component {
             .map(e => [
               <Caption style={Styles.CSS.highLightText}>{e.version}</Caption>,
               e.detail.map(m => (
-                <Text style={{ textAlign: 'center' }}>{m}</Text>
+                <Text style={{ textAlign: 'center', fontSize: 10 }}>{m}</Text>
               )),
             ])}
         </Row>

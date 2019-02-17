@@ -81,12 +81,19 @@ const data_version = {
         'Updated: Project Demo Site',
       ],
     },
-     {
+    {
       date: '2019-02-16',
       version: 'V0.51',
       detail: [
         'Fixed: Critical compatibility bug',
         'Updated: Application performance',
+      ],
+    },
+    {
+      date: '2019-02-17',
+      version: 'V0.52',
+      detail: [
+        'Fixed: Prevent redownload sore if downloaded in score screen',
       ],
     },
   ],

@@ -43,6 +43,18 @@ export const fetch_score = (
   downloadOnly
 ) => (dispatch, getState) => {
   /* fetch score event started*/
+
+  /* if already downloaded */
+  if (getState().app.settings.savedScore.arrScore.filter( e => 
+    ((JSON.stringify(e.scoreObj) == JSON.stringify(scoreObj)) 
+      && (JSON.stringify(e.levelObj) == JSON.stringify(levelObj)))
+  ).length > 0) {
+    return dispatch({
+      type: 'VIEWSCREEN_LOAD_SCORE_FAILED',
+      message: '此谱面已存在',
+    });
+  }
+
   dispatch({
     type: 'VIEWSCREEN_LOAD_SCORE_STARTED',
     selectedWikiLink,
@@ -78,6 +90,7 @@ export const fetch_score = (
     .catch(err => {
       dispatch({
         type: 'VIEWSCREEN_LOAD_SCORE_FAILED',
+        message: '请求数据失败, 可能 Namco 不在服务区?',
       });
     });
 };
@@ -206,10 +219,10 @@ export const setting_read = () => (dispatch, getState) => {
   /*dispatch({
     type: 'SETTING_READ_STARTED',
   });*/
-  console.log('setting read started');
+  // console.log('setting read started');
   return FileSystem.getInfoAsync(`${FileSystem.documentDirectory}setting.json`)
     .then(res => {
-      console.log('setting.read.configExists', res);
+      // console.log('setting.read.configExists', res);
       if (res.exists) {
         /* load the app setting */
         FileSystem.readAsStringAsync(

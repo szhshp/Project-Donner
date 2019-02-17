@@ -16,14 +16,12 @@ import {
   TextInput,
   Title,
   Divider,
-  Icon,
   Button,
   Row,
   ImageBackground,
   NavigationBar,
 } from '@shoutem/ui';
-import { Ionicons } from '@expo/vector-icons';
-import { FileSystem, WebBrowser } from 'expo';
+import { FileSystem, WebBrowser, Icon } from 'expo';
 
 import * as actions from '../actions';
 import Styles from '../constants/Styles';
@@ -42,7 +40,7 @@ class SavedScoresScreen extends React.Component {
   };
 
   render() {
-    console.log('Setting.this.props', this.props);
+    // console.log('Setting.this.props', this.props);
     return [
       <ImageBackground
         style={{
@@ -92,7 +90,7 @@ class SavedScoresScreen extends React.Component {
                       {' / '}
                       {s.levelObj.transTitle}
                     </Text>
-                    <Ionicons name="md-arrow-round-forward" size={16} />
+                    <Icon.Ionicons name="md-arrow-round-forward" size={16} />
                   </Row>
                   <Divider styleName="line" />
                   <Divider styleName="line" />

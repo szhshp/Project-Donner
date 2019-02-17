@@ -97,7 +97,7 @@ const reducer = (state = defaultState, actionData) => {
       return rv;
     }
     case 'VIEWSCREEN_LOAD_SCORE_FAILED': {
-      rv.view.scoreView.message = '请求数据失败, 可能 Namco 不在服务区?';
+      rv.view.scoreView.message = actionData.message;
       rv.view.scoreView.status = 'failed';
       return rv;
     }

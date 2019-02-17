@@ -1,7 +1,8 @@
 import React from 'react';
 import { ScrollView, StyleShee, Modal, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
-import { Ionicons } from '@expo/vector-icons';
+import {  Icon } from 'expo';
+
 import {
   Text,
   ImageBackground,
@@ -46,7 +47,7 @@ class LinksScreen extends React.Component {
   };
 
   render() {
-    console.log('ScoreScreen.props', this.props);
+    // console.log('ScoreScreen.props', this.props);
 
     return (
       <ScrollView>
@@ -61,7 +62,7 @@ class LinksScreen extends React.Component {
               /* only show back button when selected category */
               this.props.search.selectedCategory !== undefined && (
                 <Button styleName="clear">
-                  <Ionicons
+                  <Icon.Ionicons
                     name="md-arrow-back"
                     size={24}
                     onPress={() => this.props.navigation.navigate('Search')}
@@ -141,7 +142,7 @@ class LinksScreen extends React.Component {
                       <Text style={Styles.CSS.buttonText}>
                         {isSavedScore
                           ? '已下载'
-                          : ['下载', <Ionicons name="md-download" size={16} />]}
+                          : ['下载', <Icon.Ionicons name="md-download" size={16} />]}
                       </Text>
                     </Button>
                   </View>

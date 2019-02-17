@@ -63,7 +63,7 @@ class SearchScreen extends React.Component {
   }
 
   render() {
-    console.log('Search.this.props', this.props);
+    // console.log('Search.this.props', this.props);
 
     let scoreInSelectedCategory;
     if (this.props.search.selectedCategory !== undefined) {

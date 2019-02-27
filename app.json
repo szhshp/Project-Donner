@@ -8,9 +8,9 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
-    "icon": "http://6sheep.gitee.io/10101.demo/comic/10101/headshot/0%20(2).png",
+    "icon": "http://6sheep.gitee.io/10101.demo/tmp/logo2.png",
     "loading": {
-      "icon": "http://6sheep.gitee.io/10101.demo/comic/10101/headshot/0%20(2).png",
+      "icon": "http://6sheep.gitee.io/10101.demo/tmp/logo2.png",
       "hideExponentText": false
     },
     "packagerOpts": {

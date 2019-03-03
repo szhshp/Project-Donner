@@ -103,6 +103,14 @@ const data_version = {
         'Fixed: Prevent redownload sore if downloaded in score screen',
       ],
     },
+    {
+      date: '2019-02-17',
+      version: 'V0.51',
+      detail: [
+        'Fixed: Scores list now shown after provided category and keyword',
+      ],
+    },
+
   ],
 };
 

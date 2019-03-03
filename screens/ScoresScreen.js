@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleShee, Modal, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
-import {  Icon } from 'expo';
+import { Icon } from 'expo';
 
 import {
   Text,
@@ -25,13 +25,14 @@ const Cheerio = require('cheerio');
 const DeepEqual = require('deep-equal');
 
 import Styles from '../constants/Styles';
-import data_scores from '../data/ScoresDev';
+import data_scores from '../data/Scores';
 import data_levels from '../data/Levels';
 import data_categories from '../data/Categories';
 import * as actions from '../actions';
 
 const mapStateToProps = state => state.app;
 const mapDispatchToProps = dispatch => ({
+  load_savedScore: index => dispatch(actions.load_savedScore(index)),
   viewScreen_load_score: (scoreObj, levelObj) =>
     dispatch(actions.viewScreen_load_score(scoreObj, levelObj, false)),
   viewScreen_reset_scoreModal: () => {
@@ -109,12 +110,16 @@ class LinksScreen extends React.Component {
                 return (
                   <View styleName="horizontal">
                     <Button
-                      onPress={() =>
-                        this.props.viewScreen_load_score(
-                          this.props.view.scoreView.selectedScore,
-                          data_levels[i]
-                        )
-                      }
+                      onPress={() => {
+                        if (isSavedScore) {
+                          this.props.load_savedScore(indexInSavedScore);
+                        } else {
+                          this.props.viewScreen_load_score(
+                            this.props.view.scoreView.selectedScore,
+                            data_levels[i]
+                          )
+                        }
+                      }}
                       styleName={
                         'confirmation secondary' + (e != null ? '' : ' muted')
                       }

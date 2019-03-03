@@ -22,7 +22,7 @@ import {
 import { connect } from 'react-redux';
 
 import Styles from '../constants/Styles';
-import data_scores from '../data/ScoresDev';
+import data_scores from '../data/Scores';
 import data_levels from '../data/Levels';
 import data_categories from '../data/Categories';
 import * as actions from '../actions';
@@ -136,39 +136,40 @@ class SearchScreen extends React.Component {
 
         {scoreInSelectedCategory !== undefined && (
           <ListView
-            data={scoreInSelectedCategory.data.map(e => ({
-              ...e,
-              r: this.props.search.searchBar.keyword,
-            }))}
+            data={scoreInSelectedCategory.data
+              .filter(s => s.title
+                .toLocaleLowerCase()
+                .indexOf(
+                  this.props.search.searchBar.keyword.toLocaleLowerCase()
+                ) > -1)
+              .map(e => ({
+                ...e,
+                r: this.props.search.searchBar.keyword,
+              }))}
             renderRow={s => {
               return (
-                s.title
-                  .toLocaleLowerCase()
-                  .indexOf(
-                    this.props.search.searchBar.keyword.toLocaleLowerCase()
-                  ) > -1 && (
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.props.searchScreen_select_score(s);
-                      this.props.navigation.navigate('Score');
-                    }}>
-                    <Row styleName="small">
-                      <Text style={{ color: Styles.Colors.defaultText }}>
-                        {s.title}
-                        {'\n'}
-                        {'难度: '}
-                        {s.levels.map(e => (e == null ? '-' : e)).join('/')}
-                        {'  '}
-                        BPM:
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.searchScreen_select_score(s);
+                    this.props.navigation.navigate('Score');
+                  }}>
+                  <Row styleName="small">
+                    <Text style={{ color: Styles.Colors.defaultText }}>
+                      {s.title}
+                      {'\n'}
+                      {'难度: '}
+                      {s.levels.map(e => (e == null ? '-' : e)).join('/')}
+                      {'  '}
+                      BPM:
                         {s.BPM}
-                      </Text>
-                      <Icon.Ionicons name="md-arrow-round-forward" size={16} />
-                    </Row>
-                    <Divider styleName="line" />
-                    <Divider styleName="line" />
-                    <Divider styleName="line" />
-                  </TouchableOpacity>
-                )
+                    </Text>
+                    <Icon.Ionicons name="md-arrow-round-forward" size={16} />
+                  </Row>
+                  <Divider styleName="line" />
+                  <Divider styleName="line" />
+                  <Divider styleName="line" />
+                </TouchableOpacity>
+
               );
             }}
           />

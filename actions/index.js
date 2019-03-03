@@ -260,7 +260,7 @@ export const setting_read = () => (dispatch, getState) => {
 };
 
 /**
- * [action creator - global, load saved score from ]
+ * [action creator - global, load saved score from application cached data ]
  * @param  {[int]} i: the saved score index
  */
 

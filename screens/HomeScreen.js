@@ -57,7 +57,7 @@ class HomeScreen extends React.Component {
 
         <Row>
           <Image
-            source={require('../assets/images/logo.png')}
+            source={require('../assets/images/logo2.png')}
             style={Styles.CSS.logoImage}
           />
         </Row>

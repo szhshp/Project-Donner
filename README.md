@@ -13,6 +13,8 @@
 ### Dev
 
 - [ ] Build V0.5 Prod version and public a release
+- [ ] Score Sorting option
+- [ ] Score Delete option
 - [ ] Log saved score file lists to console
 - [x] Demo Site
 

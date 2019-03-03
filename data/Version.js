@@ -104,8 +104,8 @@ const data_version = {
       ],
     },
     {
-      date: '2019-02-17',
-      version: 'V0.51',
+      date: '2019-03-03',
+      version: 'V0.6',
       detail: [
         'Fixed: Scores list now shown after provided category and keyword',
       ],

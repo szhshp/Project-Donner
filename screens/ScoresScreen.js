@@ -9,25 +9,18 @@ import {
   NavigationBar,
   Title,
   Button,
-  ImagePreview,
   Heading,
-  Divider,
   Row,
   Spinner,
-  Image,
-  Subtitle,
   View,
   Caption,
 } from '@shoutem/ui';
 
 import ImageViewer from 'react-native-image-zoom-viewer';
-const Cheerio = require('cheerio');
 const DeepEqual = require('deep-equal');
 
 import Styles from '../constants/Styles';
-import data_scores from '../data/Scores';
 import data_levels from '../data/Levels';
-import data_categories from '../data/Categories';
 import * as actions from '../actions';
 
 const mapStateToProps = state => state.app;

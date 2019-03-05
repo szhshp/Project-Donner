@@ -15,6 +15,9 @@
 - [ ] Build V0.5 Prod version and public a release
 - [ ] Score Sorting option
 - [ ] Score Delete option
+  - [x] Debug for default rowIndex value `-1`
+  - [x] Update document
+  - [x] Update version 
 - [ ] Log saved score file lists to console
 - [x] Demo Site
 
@@ -127,6 +130,10 @@ Format:
   },
   home: {
     releases: [], /* releases array from github */
+  },
+  savedScore: { /* saved score screen, note that saved score data are in setting attr */
+    toggleDeleteView: [true|false], 
+    savedScoreIndexToDelete: [-1|int], /* the selected index of savedscore to delete, default to -1, if values to -1 then no score to delete  */
   },
 }
 ```

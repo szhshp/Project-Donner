@@ -110,7 +110,13 @@ const data_version = {
         'Fixed: Scores list now shown after provided category and keyword',
       ],
     },
-
+    {
+      date: '2019-03-05',
+      version: 'V0.61',
+      detail: [
+        'Updated: Delete score feature',
+      ],
+    },
   ],
 };
 

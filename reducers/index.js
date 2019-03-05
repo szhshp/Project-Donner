@@ -27,11 +27,16 @@ const defaultState = {
       modalVisible: false,
     },
   },
+  savedScore: {
+    toggleDeleteView: false,
+    savedScoreIndexToDelete: -1,
+  },
   home: {
     releases: [],
   },
 };
 
+// TODO: triple equation
 const reducer = (state = defaultState, actionData) => {
   console.log('Reducer.actionData', actionData);
   let rv = merge({}, state);
@@ -120,11 +125,14 @@ const reducer = (state = defaultState, actionData) => {
       if (actionData.settings) rv.settings = actionData.settings;
       return rv;
     }
-    /*case 'SAVEDSCORE_READ_FINISHED': {
-      if (actionData.arrScoreFile)
-        rv.savedScore.arrScoreFile = actionData.arrScoreFile;
+    case 'SAVEDSCORE_TOGGLE_DELETEVIEW': {
+      rv.savedScore.toggleDeleteView = !rv.savedScore.toggleDeleteView;
       return rv;
-    }*/
+    }
+    case 'SAVEDSCORE_TOGGLE_DELETECONFIRM': {
+      rv.savedScore.savedScoreIndexToDelete = actionData.index;
+      return rv;
+    }
     case 'SETTING_CHANGE_AUTOSAVE': {
       rv.settings.autoSave = actionData.autoSave;
       return rv;

@@ -287,3 +287,68 @@ export const load_latest_version = () => (dispatch, getState) => {
       console.log('load_latest_version: Failed');
     });
 };
+
+/**
+ * [action creator - saved score screen, toggle delete view ]
+ */
+export const savedScore_toggle_deleteView = () => ({
+  type: 'SAVEDSCORE_TOGGLE_DELETEVIEW',
+});
+
+/**
+ * [action creator - saved score screen, show delete confirm modal ]
+ * @param  {[int]} i: the saved score index
+ */
+export const savedScore_toggle_deleteConfirm = (i) => ({
+  type: 'SAVEDSCORE_TOGGLE_DELETECONFIRM',
+  index: i,
+});
+
+
+/**
+ * [action creator - saved score screen, directly delete saved score in cached]
+ * @return  {[thunk]} file IO to read config file
+ */
+export const savedScore_delete = () => (dispatch, getState) => {
+  // console.log('savedScore_delete started');
+  
+  // TODO
+
+  // return FileSystem.getInfoAsync(`${FileSystem.documentDirectory}setting.json`)
+  //   .then(res => {
+  //     // console.log('setting.read.configExists', res);
+  //     if (res.exists) {
+  //       /* load the app setting */
+  //       FileSystem.readAsStringAsync(
+  //         `${FileSystem.documentDirectory}setting.json`
+  //       )
+  //         .then(res => JSON.parse(res))
+  //         .then(res => {
+  //           dispatch({
+  //             type: 'SETTING_READ_FINISHED',
+  //             settings: res,
+  //           });
+  //         });
+  //     } else {
+  //       /* create new setting file and push default value to state */
+  //       FileSystem.writeAsStringAsync(
+  //         `${FileSystem.documentDirectory}setting.json`,
+  //         JSON.stringify(getState().app.settings)
+  //       ).then(res => {
+  //         dispatch({
+  //           type: 'SETTING_READ_FINISHED',
+  //         });
+  //       });
+
+  //       /* create a new sub folder */
+  //       FileSystem.makeDirectoryAsync(
+  //         `${FileSystem.documentDirectory}savedScore/`
+  //       );
+  //     }
+  //   })
+  //   .catch(err => {
+  //     dispatch({
+  //       type: 'SETTING_READ_FAILED',
+  //     });
+  //   });
+};

@@ -39,6 +39,9 @@ const CSS = {
   buttonSuccess: {
     backgroundColor: '#86aa40',
   },
+  buttonDanger: {
+    backgroundColor: '#f6d04d',
+  },
   buttonText: {
     fontSize: 16,
   },

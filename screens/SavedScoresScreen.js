@@ -1,19 +1,12 @@
 import React from 'react';
-import { ExpoConfigView } from '@expo/samples';
 import { connect } from 'react-redux';
 import {
   ScrollView,
-  StyleSheet,
   TouchableOpacity,
-  Switch,
-  Image,
 } from 'react-native';
 import {
   Text,
-  View,
-  Screen,
   ListView,
-  TextInput,
   Title,
   Divider,
   Button,
@@ -21,16 +14,17 @@ import {
   ImageBackground,
   NavigationBar,
 } from '@shoutem/ui';
-import { FileSystem, WebBrowser, Icon } from 'expo';
+import { Icon } from 'expo';
 
 import * as actions from '../actions';
 import Styles from '../constants/Styles';
 
-import data_version from '../data/Version';
 
 const mapStateToProps = state => state.app;
 const mapDispatchToProps = dispatch => ({
   load_savedScore: index => dispatch(actions.load_savedScore(index)),
+  toggle_savedScore_deleteView: index => dispatch(actions.savedScore_toggle_deleteView(index)),
+  toggle_savedScore_deleteConfirm: index => dispatch(actions.savedScore_toggle_deleteConfirm(index)),
 });
 
 class SavedScoresScreen extends React.Component {
@@ -40,7 +34,7 @@ class SavedScoresScreen extends React.Component {
   };
 
   render() {
-    // console.log('Setting.this.props', this.props);
+    console.log('Setting.this.props', this.props);
     return [
       <ImageBackground
         style={{
@@ -50,7 +44,24 @@ class SavedScoresScreen extends React.Component {
         <NavigationBar
           styleName="clear"
           centerComponent={
-            <Title style={Styles.CSS.headerTextPaddingTop}>已下载谱面</Title>
+            <Title style={Styles.CSS.headerTextPaddingTop}>
+              {(this.props.savedScore.toggleDeleteView === false) ? '已下载谱面' : '删除谱面'}
+            </Title>
+          }
+          rightComponent={
+            <Button
+              styleName="clear"
+              onPress={() => this.props.toggle_savedScore_deleteView()}
+            >
+              <Icon.Ionicons
+                name={(this.props.savedScore.toggleDeleteView === false) ? 'md-trash' : 'md-checkmark'}
+                size={24}
+                style={[
+                  Styles.CSS.textColorWithinBackground,
+                  Styles.CSS.headerTextPaddingTop,
+                ]}
+              />
+            </Button>
           }
         />
       </ImageBackground>,
@@ -80,9 +91,14 @@ class SavedScoresScreen extends React.Component {
                 <TouchableOpacity
                   key={rowIndex}
                   onPress={() => {
-                    this.props.load_savedScore(rowIndex);
-                    this.props.navigation.navigate('Score');
-                  }}>
+                    if (this.props.savedScore.toggleDeleteView == true) {
+                      this.props.toggle_savedScore_deleteConfirm(rowIndex);
+                    } else {
+                      this.props.load_savedScore(rowIndex);
+                      this.props.navigation.navigate('Score');
+                    }
+                  }}
+                >
                   <Row styleName="small" key={rowIndex}>
                     <Text style={{ color: Styles.Colors.defaultText }}>
                       {s.scoreObj.title}
@@ -91,8 +107,33 @@ class SavedScoresScreen extends React.Component {
                       {' / '}
                       {s.levelObj.transTitle}
                     </Text>
-                    <Icon.Ionicons name="md-arrow-round-forward" size={16} />
+                    <Icon.Ionicons
+                      name={(this.props.savedScore.toggleDeleteView === false) ? "md-arrow-round-forward" : 'md-trash'}
+                      size={24}
+                    />
                   </Row>
+                  {this.props.savedScore.toggleDeleteView == true
+                    && this.props.savedScore.savedScoreIndexToDelete != -1
+                    && this.props.savedScore.savedScoreIndexToDelete === rowIndex &&
+                    <Row key={rowIndex + 10000}>
+                      <Text>确认删除此谱面?</Text>
+                      <Button
+                        style={Styles.CSS.buttonDanger}
+                        onPress={() => {
+                          this.props.toggle_savedScore_deleteConfirm(rowIndex)
+                        }}>
+                        <Text>YES</Text>
+                      </Button>
+                      <Button
+                        style={Styles.CSS.buttonSuccess}
+                        onPress={() => {
+                          this.props.toggle_savedScore_deleteConfirm(-1)
+                        }}
+                      >
+                        <Text>No</Text>
+                      </Button>
+                    </Row>
+                  }
                   <Divider styleName="line" />
                   <Divider styleName="line" />
                   <Divider styleName="line" />

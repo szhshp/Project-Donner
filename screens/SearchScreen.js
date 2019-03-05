@@ -103,7 +103,7 @@ class SearchScreen extends React.Component {
           }
           rightComponent={
             <Button 
-              styleName="clear"
+              styleName={Styles.CSS.buttonSuccess}
               onPress={() => this.props.searchScreen_toggle_searchBar()}
             >
               <Icon.Ionicons

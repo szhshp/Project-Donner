@@ -34,7 +34,7 @@ class SavedScoresScreen extends React.Component {
   };
 
   render() {
-    console.log('Setting.this.props', this.props);
+    // console.log('Setting.this.props', this.props);
     return [
       <ImageBackground
         style={{

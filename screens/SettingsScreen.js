@@ -89,7 +89,7 @@ class SettingsScreen extends React.Component {
             </TouchableOpacity>,
             <TouchableOpacity
               onPress={() => {
-                WebBrowser.openBrowserAsync(this.props.home.releases[0].url);
+                WebBrowser.openBrowserAsync(this.props.home.releases[0].html_url);
               }}>
               <Text style={{ color: 'red' }}> 点击更新</Text>
             </TouchableOpacity>,

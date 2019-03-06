@@ -1,4 +1,4 @@
-import { FileSystem, WebBrowser } from 'expo';
+import { FileSystem } from 'expo';
 
 const Encoding = require('encoding-japanese');
 const Cheerio = require('cheerio');
@@ -309,46 +309,46 @@ export const savedScore_toggle_deleteConfirm = (i) => ({
  * [action creator - saved score screen, directly delete saved score in cached]
  * @return  {[thunk]} file IO to read config file
  */
-export const savedScore_delete = () => (dispatch, getState) => {
-  // console.log('savedScore_delete started');
+export const savedScore_delete = (index) => (dispatch, getState) => {
+  console.log('savedScore_delete', 'score Index to delete', index);
   
-  // TODO
+  return FileSystem.getInfoAsync(`${FileSystem.documentDirectory}setting.json`)
+    .then(res => {
+      console.log('setting.read.configExists', res);
 
-  // return FileSystem.getInfoAsync(`${FileSystem.documentDirectory}setting.json`)
-  //   .then(res => {
-  //     // console.log('setting.read.configExists', res);
-  //     if (res.exists) {
-  //       /* load the app setting */
-  //       FileSystem.readAsStringAsync(
-  //         `${FileSystem.documentDirectory}setting.json`
-  //       )
-  //         .then(res => JSON.parse(res))
-  //         .then(res => {
-  //           dispatch({
-  //             type: 'SETTING_READ_FINISHED',
-  //             settings: res,
-  //           });
-  //         });
-  //     } else {
-  //       /* create new setting file and push default value to state */
-  //       FileSystem.writeAsStringAsync(
-  //         `${FileSystem.documentDirectory}setting.json`,
-  //         JSON.stringify(getState().app.settings)
-  //       ).then(res => {
-  //         dispatch({
-  //           type: 'SETTING_READ_FINISHED',
-  //         });
-  //       });
+      return;
+      if (res.exists) {
+        /* load the app setting */
+        FileSystem.readAsStringAsync(
+          `${FileSystem.documentDirectory}setting.json`
+        )
+          .then(res => JSON.parse(res))
+          .then(res => {
+            dispatch({
+              type: 'SETTING_READ_FINISHED',
+              settings: res,
+            });
+          });
+      } else {
+        /* create new setting file and push default value to state */
+        FileSystem.writeAsStringAsync(
+          `${FileSystem.documentDirectory}setting.json`,
+          JSON.stringify(getState().app.settings)
+        ).then(res => {
+          dispatch({
+            type: 'SETTING_READ_FINISHED',
+          });
+        });
 
-  //       /* create a new sub folder */
-  //       FileSystem.makeDirectoryAsync(
-  //         `${FileSystem.documentDirectory}savedScore/`
-  //       );
-  //     }
-  //   })
-  //   .catch(err => {
-  //     dispatch({
-  //       type: 'SETTING_READ_FAILED',
-  //     });
-  //   });
+        /* create a new sub folder */
+        FileSystem.makeDirectoryAsync(
+          `${FileSystem.documentDirectory}savedScore/`
+        );
+      }
+    })
+    .catch(err => {
+      dispatch({
+        type: 'SETTING_READ_FAILED',
+      });
+    });
 };

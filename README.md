@@ -18,6 +18,7 @@
   - [x] Debug for default rowIndex value `-1`
   - [x] Update document
   - [x] Update version 
+  - [ ] Delete from cache
 - [ ] Log saved score file lists to console
 - [x] Demo Site
 

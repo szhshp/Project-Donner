@@ -115,6 +115,8 @@ const data_version = {
       version: 'V0.61',
       detail: [
         'Updated: Delete score feature',
+        'Fixed: UX Issues',
+        'Fixed: Links to new version',
       ],
     },
   ],

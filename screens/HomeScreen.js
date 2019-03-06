@@ -1,30 +1,18 @@
 import React from 'react';
 import {
   Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
   TouchableOpacity,
-  View,
-  Button,
-  Modal,
-  Dimensions,
 } from 'react-native';
 import {
   Text,
   Heading,
-  Title,
   Screen,
-  Subtitle,
-  Description,
   Caption,
 } from '@shoutem/ui';
 import { connect } from 'react-redux';
 
-import { FileSystem, WebBrowser } from 'expo';
+import { WebBrowser } from 'expo';
 import Styles from '../constants/Styles';
-
-import { MonoText } from '../components/StyledText';
 import Row from '../components/Row';
 
 import data_version from '../data/Version';
@@ -51,6 +39,7 @@ class HomeScreen extends React.Component {
   }
 
   render() {
+    // console.log('Setting.this.props', this.props);
     return (
       <Screen>
         {this._maybeRenderDevelopmentModeWarning()}
@@ -79,7 +68,7 @@ class HomeScreen extends React.Component {
               </Caption>,
               <TouchableOpacity
                 onPress={() => {
-                  WebBrowser.openBrowserAsync(this.props.home.releases[0].url);
+                  WebBrowser.openBrowserAsync(this.props.home.releases[0].html_url);
                 }}>
                 <Text style={{ color: 'red' }}> 点击更新</Text>
               </TouchableOpacity>,

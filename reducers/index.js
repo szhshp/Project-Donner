@@ -38,7 +38,7 @@ const defaultState = {
 
 // TODO: triple equation
 const reducer = (state = defaultState, actionData) => {
-  console.log('Reducer.actionData', actionData);
+  // console.log('Reducer.actionData', actionData);
   let rv = merge({}, state);
 
   switch (actionData.type) {
@@ -136,6 +136,11 @@ const reducer = (state = defaultState, actionData) => {
     case 'SETTING_CHANGE_AUTOSAVE': {
       rv.settings.autoSave = actionData.autoSave;
       return rv;
+    }
+    case 'SETTING_DELETE_SAVEDSCORE': {
+      if (actionData.indexToDelete){
+        rv.settings.savedScore.arrScore.splice(actionData.indexToDelete, 1);
+      }
     }
     case 'SETTING_LOAD_LATESTVERSION': {
       if (actionData.latest_version_info) {

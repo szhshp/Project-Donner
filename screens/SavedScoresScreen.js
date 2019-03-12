@@ -25,6 +25,7 @@ const mapDispatchToProps = dispatch => ({
   load_savedScore: index => dispatch(actions.load_savedScore(index)),
   toggle_savedScore_deleteView: index => dispatch(actions.savedScore_toggle_deleteView(index)),
   toggle_savedScore_deleteConfirm: index => dispatch(actions.savedScore_toggle_deleteConfirm(index)),
+  delete_savedScore: index => dispatch(actions.delete_savedScore(index)),
 });
 
 class SavedScoresScreen extends React.Component {
@@ -120,7 +121,7 @@ class SavedScoresScreen extends React.Component {
                       <Button
                         style={Styles.CSS.buttonDanger}
                         onPress={() => {
-                          this.props.toggle_savedScore_deleteConfirm(rowIndex)
+                          this.props.delete_savedScore(rowIndex)
                         }}>
                         <Text>YES</Text>
                       </Button>

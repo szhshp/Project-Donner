@@ -45,8 +45,8 @@ export const fetch_score = (
   /* fetch score event started*/
 
   /* if already downloaded */
-  if (getState().app.settings.savedScore.arrScore.filter( e => 
-    ((JSON.stringify(e.scoreObj) == JSON.stringify(scoreObj)) 
+  if (getState().app.settings.savedScore.arrScore.filter(e =>
+    ((JSON.stringify(e.scoreObj) == JSON.stringify(scoreObj))
       && (JSON.stringify(e.levelObj) == JSON.stringify(levelObj)))
   ).length > 0) {
     return dispatch({
@@ -309,14 +309,9 @@ export const savedScore_toggle_deleteConfirm = (i) => ({
  * [action creator - saved score screen, directly delete saved score in cached]
  * @return  {[thunk]} file IO to read config file
  */
-export const savedScore_delete = (index) => (dispatch, getState) => {
-  console.log('savedScore_delete', 'score Index to delete', index);
-  
+export const delete_savedScore = (index) => (dispatch, getState) => {
   return FileSystem.getInfoAsync(`${FileSystem.documentDirectory}setting.json`)
     .then(res => {
-      console.log('setting.read.configExists', res);
-
-      return;
       if (res.exists) {
         /* load the app setting */
         FileSystem.readAsStringAsync(
@@ -325,25 +320,19 @@ export const savedScore_delete = (index) => (dispatch, getState) => {
           .then(res => JSON.parse(res))
           .then(res => {
             dispatch({
-              type: 'SETTING_READ_FINISHED',
-              settings: res,
+              type: 'SETTING_DELETE_SAVEDSCORE',
+              indexToDelete: index,
             });
-          });
-      } else {
-        /* create new setting file and push default value to state */
-        FileSystem.writeAsStringAsync(
-          `${FileSystem.documentDirectory}setting.json`,
-          JSON.stringify(getState().app.settings)
-        ).then(res => {
-          dispatch({
-            type: 'SETTING_READ_FINISHED',
-          });
-        });
 
-        /* create a new sub folder */
-        FileSystem.makeDirectoryAsync(
-          `${FileSystem.documentDirectory}savedScore/`
-        );
+            let relativePath = res.savedScore.arrScore[index].relativePath;
+            FileSystem.deleteAsync(`${FileSystem.documentDirectory}${relativePath}`)
+              .then(res =>
+                dispatch(setting_write())
+              )
+              .catch(e => {
+                console.log('delete savedscore in cache failed');
+              });
+          });
       }
     })
     .catch(err => {

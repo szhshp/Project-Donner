@@ -114,9 +114,15 @@ const data_version = {
       date: '2019-03-05',
       version: 'V0.61',
       detail: [
-        'Updated: Delete score feature',
         'Fixed: UX Issues',
         'Fixed: Links to new version',
+      ],
+    },
+    {
+      date: '2019-03-12',
+      version: 'V0.62',
+      detail: [
+        'Updated: Delete score feature',
       ],
     },
   ],

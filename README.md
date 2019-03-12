@@ -2,6 +2,8 @@
  
 >ドン,カツ,ド,ド,カツ,ド,ドドカ,ド,カ,ド,ドドカ,カツ
  
+[  Project Home Page     ](https://szhielelp.github.io/Project-Donner-Demo/)
+
 ## Main Features
  
 1. Score Search
@@ -12,18 +14,21 @@
 
 ### Dev
 
-- [ ] Build V0.5 Prod version and public a release
 - [ ] Score Sorting option
-- [ ] Score Delete option
-  - [x] Debug for default rowIndex value `-1`
-  - [x] Update document
-  - [x] Update version 
-  - [ ] Delete from cache
 - [ ] Log saved score file lists to console
+- [ ] Confirm saved score is deleted
+- [x] Build V0.5 Prod version and public a release
 - [x] Demo Site
+- [x] Prevent redownload sore if downloaded in score screen
+- [x] Update history text styles
 
 ### Feature
 
+- [x] Score Delete option
+  - [x] Debug for default rowIndex value `-1`
+  - [x] Update document
+  - [x] Update version 
+  - [x] Delete from cache
 - [x] Handle auto download feature
 - [x] Fetch for latest version
 - [x] Load downloaded score
@@ -41,12 +46,7 @@
 - [x] Score modal back event
 
 
-### Bug
 
-- [x] Prevent redownload sore if downloaded in score screen
-
-### UI
-- [x] Update history text styles
 
 
 ## Technology Stacks
@@ -57,7 +57,7 @@
  
 ## Actions
  
-(TODO)
+(TODO: Action Desc)
  
 ## IO
  
@@ -89,6 +89,8 @@ Format:
         https://www.wikihouse.com/taiko/attach/C6F1B0D7C5D9C9BD2FA4AAA4CB2FA4B5A4A4A4BFA4DE32303030_6F2E706E67
        ```
 - For enumeration of saved score, simply enumerate the files in `${FileSystem.documentDirectory}savedScore/`
+
+
 
 ## Dynamic Data
  

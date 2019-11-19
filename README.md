@@ -96,7 +96,7 @@ Format:
  
 ### States
   
-```json
+```js
 {
   settings: {   /* application level settings */
     autoSave: [true|false], /* autoSave when score loaded? */
